@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="#48db70">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="350dp"
+        android:layout_marginTop="100sp"
+        android:src="@drawable/plaecement"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="332dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="90sp"
+        android:text="placement success"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#3A4342"
+        android:textSize="48sp"
+        app:fontFamily="@font/bangers"
+        app:layout_anchor="@+id/imageView"
+        app:layout_anchorGravity="bottom|center" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10sp"
+        android:text="An Initiative Of Netaji Subhash Engineering College"
+        android:textColor="#706D6D"
+        app:fontFamily="@font/antic"
+        app:layout_anchor="@+id/textView"
+        app:layout_anchorGravity="end|bottom" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
