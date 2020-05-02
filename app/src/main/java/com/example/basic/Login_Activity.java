@@ -31,7 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Login_Activity extends AppCompatActivity {
-    Button SignupBtn;
+    TextView SignupBtn;
     EditText emailId,password;
     Button SigninBtn;
     FirebaseAuth mAuth;
