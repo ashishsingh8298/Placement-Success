@@ -31,7 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Login_Activity extends AppCompatActivity {
-    TextView tvSignup,x;
+    Button SignupBtn;
     EditText emailId,password;
     Button SigninBtn;
     FirebaseAuth mAuth;
@@ -56,7 +56,7 @@ public class Login_Activity extends AppCompatActivity {
         emailId = findViewById(R.id.Email);
         password = findViewById(R.id.Password);
         SigninBtn = findViewById(R.id.Login);
-        tvSignup = findViewById(R.id.SignUp);
+        SignupBtn = findViewById(R.id.SignUp);
         gSignin=findViewById(R.id.Google);
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -127,7 +127,7 @@ public class Login_Activity extends AppCompatActivity {
         });
 
         //for calling the signup activity
-        tvSignup.setOnClickListener(new View.OnClickListener() {
+        SignupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i=new Intent(Login_Activity.this,Register_Activity.class);
