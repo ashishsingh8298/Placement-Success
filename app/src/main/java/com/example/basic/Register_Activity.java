@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,8 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Register_Activity extends AppCompatActivity {
-    TextInputEditText name,emailid,password;
-    Button Signup;
+    TextInputEditText name,emailid,password,phoneNo;
+    Button Signup,SigninPage;
     FirebaseAuth mAuth;
     ProgressDialog mDialog;
     private DatabaseReference mDatabase;
@@ -40,6 +41,8 @@ public class Register_Activity extends AppCompatActivity {
         name=findViewById(R.id.Name);
         password=findViewById(R.id.Password);
         Signup=findViewById(R.id.Register);
+        SigninPage=findViewById(R.id.loginPage);
+        phoneNo=findViewById(R.id.Phone);
 
         Signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,12 +51,20 @@ public class Register_Activity extends AppCompatActivity {
             }
         });
 
+        SigninPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Register_Activity.this,Login_Activity.class));
+            }
+        });
+
     }
     private void startRegister()
     {
         final String sname=name.getText().toString().trim();
-        String email=emailid.getText().toString().trim();
+        final String email=emailid.getText().toString().trim();
         String pwd=password.getText().toString().trim();
+        final String phone=phoneNo.getText().toString().trim();
         if(TextUtils.isEmpty(sname))
         {
             name.setError("Please enter your Name");
@@ -94,9 +105,13 @@ public class Register_Activity extends AppCompatActivity {
                                             DatabaseReference current_user = mDatabase.child(user_id);
 
                                             current_user.child("Name").setValue(sname);
+                                            current_user.child("Email").setValue(email);
+                                            current_user.child("Phone Number").setValue(phone);
                                             name.setText("");
                                             emailid.setText("");
+                                            phoneNo.setText("");
                                             password.setText((""));
+                                            name.requestFocus();
                                         }
                                         else
                                         {
@@ -105,15 +120,11 @@ public class Register_Activity extends AppCompatActivity {
                                     }
                                 });
 
-
-                                //Intent i = new Intent(Register_Activity.this, Dashboard.class);
-                                //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                               // startActivity(i);
                             }
                             else
                             {
                                 mDialog.dismiss();
-                                Toast.makeText(Register_Activity.this,"Email is already registered!",Toast.LENGTH_LONG).show();
+                                Toast.makeText(Register_Activity.this,"Email is already registered!(Invalid Email)",Toast.LENGTH_LONG).show();
                             }
                         }
                     }

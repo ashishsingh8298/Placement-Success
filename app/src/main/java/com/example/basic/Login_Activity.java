@@ -33,7 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Login_Activity extends AppCompatActivity {
     TextView SignupBtn;
     EditText emailId,password;
-    Button SigninBtn;
+    Button SigninBtn,ForgotPassword;
     FirebaseAuth mAuth;
     ProgressDialog mDialog;
     SignInButton gSignin;
@@ -58,6 +58,7 @@ public class Login_Activity extends AppCompatActivity {
         SigninBtn = findViewById(R.id.Login);
         SignupBtn = findViewById(R.id.SignUp);
         gSignin=findViewById(R.id.Google);
+        ForgotPassword=findViewById(R.id.forgot_password);
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -91,7 +92,7 @@ public class Login_Activity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             mDialog.dismiss();
                             if (!task.isSuccessful()) {
-                                Toast.makeText(Login_Activity.this, "SignIn Unsuccessful!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login_Activity.this, "Incorrect EmailId/Password(or Not Registered!)", Toast.LENGTH_LONG).show();
                             } else {
 
                                 if(mAuth.getCurrentUser().isEmailVerified())
@@ -102,6 +103,29 @@ public class Login_Activity extends AppCompatActivity {
                                 {
                                     Toast.makeText(Login_Activity.this, "Please verify your email!", Toast.LENGTH_LONG).show();
                                 }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        ForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = emailId.getText().toString();
+                if(TextUtils.isEmpty(email))
+                {
+                    Toast.makeText(Login_Activity.this,"Please Enter Your Email.",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(Login_Activity.this, "Password reset email sent successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(Login_Activity.this, "Please check email", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
