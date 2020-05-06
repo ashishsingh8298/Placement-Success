@@ -11,4 +11,16 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="placement_accent">Placement Accent</string>
     <string name="Placement_success" />
+    <string name="title_activity_nav_">Nav_Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Placement Success</string>
+    <string name="nav_header_subtitle">placementsuccess73@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_home">Feed</string>
+    <string name="menu_gallery">Profile</string>
+    <string name="menu_slideshow">Setting</string>
+    <string name="menu_logout">LogOut</string>
+
 </resources>

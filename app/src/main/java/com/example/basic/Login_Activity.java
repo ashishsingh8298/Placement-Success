@@ -74,7 +74,7 @@ public class Login_Activity extends AppCompatActivity {
                 FirebaseUser mFirebaseUser = mAuth.getCurrentUser();
                 if (mFirebaseUser != null && mAuth.getCurrentUser().isEmailVerified()) {
                     Toast.makeText(Login_Activity.this, "You are logged in!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(Login_Activity.this, Dashboard.class));
+                    startActivity(new Intent(Login_Activity.this, Nav_Activity.class));
                 } else {
                     Toast.makeText(Login_Activity.this, "Please Login!", Toast.LENGTH_SHORT).show();
                 }
@@ -105,7 +105,7 @@ public class Login_Activity extends AppCompatActivity {
 
                                 if(mAuth.getCurrentUser().isEmailVerified())
                                 {
-                                    startActivity(new Intent(Login_Activity.this, Dashboard.class));
+                                    startActivity(new Intent(Login_Activity.this, Nav_Activity.class));
                                 }
                                 else
                                 {
@@ -208,7 +208,7 @@ public class Login_Activity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(Login_Activity.this,"Authentication Successful", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(Login_Activity.this,Dashboard.class));
+                            startActivity(new Intent(Login_Activity.this,Nav_Activity.class));
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(Login_Activity.this,"Authentication Failed", Toast.LENGTH_SHORT).show();
