@@ -68,7 +68,7 @@ public class Login_Activity extends AppCompatActivity {
         gSignin=findViewById(R.id.Google);
         ForgotPassword=findViewById(R.id.forgot_password);
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+       mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser mFirebaseUser = mAuth.getCurrentUser();

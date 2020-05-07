@@ -163,5 +163,12 @@ public class Nav_Activity extends AppCompatActivity {
         firebaseRecyclerAdapter.startListening();
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
     }
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthStateListener);
+    }
 
 }
+
