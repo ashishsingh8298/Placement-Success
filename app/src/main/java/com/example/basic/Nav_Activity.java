@@ -67,7 +67,7 @@ public class Nav_Activity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser mUser = mAuth.getCurrentUser();
                 if (mUser == null) {
-                    Intent i = new Intent(Nav_Activity.this, Login_Activity.class);
+                    Intent i=new Intent(Nav_Activity.this, Login_Activity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                 }
