@@ -58,7 +58,7 @@ public class Nav_Activity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Company");
         mRecyclerView= findViewById(R.id.list);
         //mCompanylist.setLayoutManager(new LinearLayoutManager(this));
-        //mCompanylist.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(true);
         showData();
 
 
@@ -135,7 +135,7 @@ public class Nav_Activity extends AppCompatActivity {
         firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Company, viewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Company model) {
-                holder.setDetails(getApplicationContext(),model.getJobTitle(),model.getJobDescription());
+                holder.setDetails(getApplicationContext(),model.getJobTitle(),model.getJobDescription(),model.getLinkLogo());
             }
 
             @NonNull
