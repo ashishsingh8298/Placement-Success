@@ -9,14 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Company_Description"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".Company_Description" />
         <activity
             android:name=".Nav_Activity"
             android:label="@string/title_activity_nav_"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ForgotPaasword"
             android:label="Forgot Password"

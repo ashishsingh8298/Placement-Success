@@ -146,14 +146,16 @@ public class Nav_Activity extends AppCompatActivity {
                 vHolder.setOnClickListener(new viewHolder.ClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Toast.makeText(Nav_Activity.this,"hello",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Nav_Activity.this,Company_Description.class));
+                        String temp=firebaseRecyclerAdapter.getRef(position).getKey();
+                        Intent intent=new Intent(Nav_Activity.this,Company_Description.class);
+                        intent.putExtra("str",temp);
+                        startActivity(intent);
                     }
 
                     @Override
                     public void onItemLongClick(View view, int position) {
                         Toast.makeText(Nav_Activity.this,"long click",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Nav_Activity.this,Company_Description.class));
+
                     }
                 });
                 return vHolder;
