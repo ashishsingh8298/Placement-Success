@@ -39,7 +39,7 @@ public class viewHolder extends RecyclerView.ViewHolder {
         TextView cDesc=mview.findViewById(R.id.company_desc);
         ImageView logoImage=mview.findViewById(R.id.company_logo);
         //String Description=jobDescription.substring(0,20);
-        Picasso.get().load(linkLogo).fit().centerCrop().placeholder(R.drawable.images).error(R.drawable.error).into(logoImage);
+        Picasso.get().load(linkLogo).fit().centerCrop().placeholder(R.drawable.apple).error(R.drawable.apple).into(logoImage);
         cTitle.setText(jobTitle);
         cDesc.setText(jobDescription);
 
