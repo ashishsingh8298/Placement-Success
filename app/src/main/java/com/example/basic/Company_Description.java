@@ -1,16 +1,11 @@
 package com.example.basic;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,9 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Company_Description extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -35,6 +29,8 @@ public class Company_Description extends AppCompatActivity {
     DatabaseReference mRef,cRef;
     FirebaseUser mUser;
     ImageView c_logo;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +56,7 @@ public class Company_Description extends AppCompatActivity {
         start_date=findViewById(R.id.Company_start_content);
         end_date=findViewById(R.id.Company_end_content);
         apply=findViewById(R.id.apply);
+
        mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -91,6 +88,8 @@ public class Company_Description extends AppCompatActivity {
 
             }
         });
+
+
 
        postComment.setOnClickListener(new View.OnClickListener() {
            @Override
