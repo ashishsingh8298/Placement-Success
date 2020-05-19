@@ -24,6 +24,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 //import com.google.firebase.quickstart.auth.R;
 //import com.google.firebase.quickstart.auth.databinding.ActivityGoogleBinding;
 
@@ -37,6 +39,7 @@ public class Login_Activity extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressDialog mDialog;
     SignInButton gSignin;
+    private DatabaseReference mDatabase;
     private static final int RC_SIGN_IN=9001;
     private GoogleSignInClient mGoogleSignInClient;
     private static final String TAG = "GoogleActivity";
@@ -48,6 +51,7 @@ public class Login_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_);
+        mDatabase= FirebaseDatabase.getInstance().getReference().child("Users");
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -189,6 +193,11 @@ public class Login_Activity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(Login_Activity.this,"Authentication Successful", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
+                            DatabaseReference current_user = mDatabase.child(user.getUid());
+
+                            current_user.child("Name").setValue(user.getDisplayName());
+                            current_user.child("Email").setValue(user.getEmail());
+                            current_user.child("Phone Number").setValue(user.getPhoneNumber());
                             startActivity(new Intent(Login_Activity.this,Nav_Activity.class));
                         } else {
                             // If sign in fails, display a message to the user.
