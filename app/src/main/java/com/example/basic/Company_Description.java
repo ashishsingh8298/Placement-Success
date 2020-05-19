@@ -3,12 +3,16 @@ package com.example.basic;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -18,8 +22,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class Company_Description extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -29,6 +38,13 @@ public class Company_Description extends AppCompatActivity {
     DatabaseReference mRef,cRef;
     FirebaseUser mUser;
     ImageView c_logo;
+    String temp,user_id,date;
+    Calendar calendar;
+    SimpleDateFormat df;
+    LinearLayoutManager mLinerLayoutManager;
+    private RecyclerView mRecyclerView;
+    FirebaseRecyclerAdapter<Comment,viewHolder> firebaseRecyclerAdapter;
+    FirebaseRecyclerOptions<Comment> options;
 
 
 
@@ -40,9 +56,19 @@ public class Company_Description extends AppCompatActivity {
         String temp=intent.getStringExtra("str");
         mAuth=FirebaseAuth.getInstance();
         mUser=mAuth.getCurrentUser();
+        user_id=mUser.getUid();
+        calendar=Calendar.getInstance();
+        SimpleDateFormat df=new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        date=df.format(calendar.getTime());
         mDatabase= FirebaseDatabase.getInstance();
         mRef=mDatabase.getReference("Company").child(temp);
-        cRef=FirebaseDatabase.getInstance().getReference().child("Comments").child(temp);
+        cRef=FirebaseDatabase.getInstance().getReference("Company").child(temp).child("Comments");
+        mLinerLayoutManager=new LinearLayoutManager(this);
+        mLinerLayoutManager.setReverseLayout(true);
+        mLinerLayoutManager.setStackFromEnd(true);
+        mRecyclerView= findViewById(R.id.list);
+        mRecyclerView.setHasFixedSize(true);
+        showData();
         feed=findViewById(R.id.Feedback);
         c_logo=findViewById(R.id.Company_logo);
         postComment=findViewById(R.id.post);
@@ -103,14 +129,46 @@ public class Company_Description extends AppCompatActivity {
                {
                    Toast.makeText(Company_Description.this, "Feedback received.", Toast.LENGTH_LONG).show();
                    String user_id = mAuth.getCurrentUser().getUid();
-
-                   cRef.child("userId").setValue(user_id);
-                   cRef.child("Comment").setValue(comment);
+                    DatabaseReference ref=cRef.push();
+                   ref.child("userId").setValue(user_id);
+                   ref.child("Comment").setValue(comment);
+                   ref.child("Date").setValue(date);
                    feed.setText("");
                }
            }
        });
+       showData();
 
+    }
+    private  void  showData()
+    {
+        options=new FirebaseRecyclerOptions.Builder<Comment>().setQuery(cRef,Comment.class).build();
+        firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Comment, viewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Comment model) {
+                holder.setComments(getApplicationContext(),model.getUserId(),model.getComment(),model.getDate());
+            }
 
+            @NonNull
+            @Override
+            public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_row,parent,false);
+                viewHolder vHolder=new viewHolder(itemView);
+                vHolder.setOnClickListener(new viewHolder.ClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                });
+                return vHolder;
+            }
+        };
+        mRecyclerView.setLayoutManager(mLinerLayoutManager);
+        firebaseRecyclerAdapter.startListening();
+        mRecyclerView.setAdapter(firebaseRecyclerAdapter);
     }
 }

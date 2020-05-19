@@ -22,7 +22,6 @@ public class AdapterClass extends RecyclerView.Adapter<AdapterClass.MyViewHolder
     public AdapterClass.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_holder,viewGroup,false);
         MyViewHolder vHolder=new MyViewHolder(view,mOnNoteListener);
-
 //        return new MyViewHolder(view);
         return vHolder;
     }
@@ -38,14 +37,15 @@ public class AdapterClass extends RecyclerView.Adapter<AdapterClass.MyViewHolder
         return list.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView id,desc;
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView id, desc;
         OnNoteListener onNoteListener;
-        public MyViewHolder(@NonNull View itemView,OnNoteListener onNoteListener) {
+
+        public MyViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
             super(itemView);
-            id=itemView.findViewById(R.id.companyTitle);
-            desc=itemView.findViewById(R.id.companyDescription);
-            this.onNoteListener=onNoteListener;
+            id = itemView.findViewById(R.id.companyTitle);
+            desc = itemView.findViewById(R.id.companyDescription);
+            this.onNoteListener = onNoteListener;
 
             itemView.setOnClickListener(this);
         }

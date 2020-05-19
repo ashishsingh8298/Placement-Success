@@ -39,9 +39,27 @@ public class viewHolder extends RecyclerView.ViewHolder {
         TextView cDesc=mview.findViewById(R.id.company_desc);
         ImageView logoImage=mview.findViewById(R.id.company_logo);
         //String Description=jobDescription.substring(0,20);
-        Picasso.get().load(linkLogo).fit().centerCrop().placeholder(R.drawable.apple).error(R.drawable.apple).into(logoImage);
+        Picasso.get().load(linkLogo).fit().centerCrop().placeholder(R.drawable.logo).error(R.drawable.error).into(logoImage);
         cTitle.setText(jobTitle);
         cDesc.setText(jobDescription);
+
+    }
+    public void setcompany_details(Context ctx,String jobTitle,String jobDescription)
+    {
+        TextView cTitle=mview.findViewById(R.id.companyTitle);
+        TextView cDesc=mview.findViewById(R.id.companyDescription);
+        cTitle.setText(jobTitle);
+        cDesc.setText(jobDescription);
+
+    }
+    public void setComments(Context ctx,String userId,String Comment,String Date)
+    {
+        TextView user_Id=mview.findViewById(R.id.user_name);
+        TextView userComment=mview.findViewById(R.id.comment);
+        TextView comment_date=mview.findViewById(R.id.date);
+        user_Id.setText(userId);
+        userComment.setText(Comment);
+        comment_date.setText(Date);
 
     }
     private viewHolder.ClickListener mClickListener;

@@ -95,10 +95,15 @@ public class Nav_Activity extends AppCompatActivity {
                 int id = item.getItemId();
                 if (id == R.id.nav_logout) {
                     FirebaseAuth.getInstance().signOut();
+                    finish();
                     startActivity(new Intent(Nav_Activity.this, Login_Activity.class));
                 }
                 else if (id == R.id.nav_home) {
                     startActivity(new Intent(Nav_Activity.this, Nav_Activity.class));
+                }
+                else if (id==R.id.nav_profile)
+                {
+                    startActivity(new Intent(Nav_Activity.this,Profile_activity.class));
                 }
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
@@ -161,7 +166,6 @@ public class Nav_Activity extends AppCompatActivity {
     }
     @Override
     protected void onStart() {
-
         super.onStart();
         mAuth.addAuthStateListener(mAuthStateListener);
     }

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
     app:cardElevation="5dp"
     android:layout_margin="5dp">
 
@@ -13,19 +14,22 @@
         <TextView
             android:id="@+id/companyTitle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="sample"
-            android:textSize="25sp"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:textSize="16dp"
             android:textStyle="bold"
-            android:padding="10dp"
-            android:textColor="#DE000000"/>
+            android:textColor="#000"
+            />
+
         <TextView
             android:id="@+id/companyDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textSize="16dp"
-            android:text="sample" />
+            android:paddingLeft="15dp"
+            android:paddingEnd="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp" />
+
     </LinearLayout>
 
     <View

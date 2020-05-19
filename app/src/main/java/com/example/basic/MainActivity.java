@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         //Hooks
         image=findViewById(R.id.imageView);
         logo=findViewById(R.id.textView);
-        slogon=findViewById(R.id.textView);
+        slogon=findViewById(R.id.textView1);
 
         image.setAnimation(topAnim);
         logo.setAnimation(bottomAnim);
@@ -55,17 +55,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, Nav_Activity.class);
                 startActivity(intent);
                 finish();
-                        /*FirebaseUser mUser = mAuth.getCurrentUser();
-                        if ((mUser != null && mAuth.getCurrentUser().isEmailVerified())) {
-                            Intent i = new Intent(MainActivity.this, Nav_Activity.class);
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(i);
-                        }
-                        else
-                        {
-                            startActivity(new Intent(MainActivity.this,Login_Activity.class));
-                            Toast.makeText(MainActivity.this, "Please Login!", Toast.LENGTH_SHORT).show();
-                        }*/
             }
         },SPASH_SCREEN);
 
