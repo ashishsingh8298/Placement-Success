@@ -111,5 +111,6 @@ public class Company_Description extends AppCompatActivity {
            }
        });
 
+
     }
 }
