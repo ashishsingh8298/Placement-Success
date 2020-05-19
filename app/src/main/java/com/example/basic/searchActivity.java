@@ -2,9 +2,7 @@ package com.example.basic;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -32,6 +30,7 @@ public class searchActivity extends AppCompatActivity implements AdapterClass.On
     ArrayList<String> keyList;
     ArrayList<Company> myList;
     ArrayList<String> myKeyList;
+    ArrayList<String> finalkeyList=new ArrayList<>();
 
 
     LinearLayoutManager mLinerLayoutManager;
@@ -70,6 +69,7 @@ public class searchActivity extends AppCompatActivity implements AdapterClass.On
 
                     AdapterClass adapterClass=new AdapterClass(list,searchActivity.this::OnNoteClick);
                     recyclerView.setAdapter(adapterClass);
+                    finalkeyList=keyList;
                 }
             }
 
@@ -125,14 +125,18 @@ public class searchActivity extends AppCompatActivity implements AdapterClass.On
         for (Company object:myList){
             myKeyList.add(keyList.get(list.indexOf(object)));
         }
-       // keyList=myKeyList;
+        Log.d(TAG, "mykeyList"+myKeyList);
+        Log.d(TAG, "keylist"+keyList);
+        finalkeyList=myKeyList;
         AdapterClass adapterClass=new AdapterClass(myList,this::OnNoteClick);
         recyclerView.setAdapter(adapterClass);
     }
 
     @Override
     public void OnNoteClick(int position) {
-        String temp=keyList.get(position);
+//        Toast.makeText(this,"Clicked : "+position,Toast.LENGTH_SHORT);
+        Log.d(TAG, "OnNoteClick: "+position);
+        String temp=finalkeyList.get(position);
         Intent intent = new Intent(searchActivity.this, Company_Description.class);
         intent.putExtra("str",temp);
         startActivity(intent);
