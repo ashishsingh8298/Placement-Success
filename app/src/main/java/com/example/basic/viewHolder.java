@@ -1,20 +1,28 @@
 package com.example.basic;
 
 import android.content.Context;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Comment;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 public class viewHolder extends RecyclerView.ViewHolder {
     View mview;
+    Button del,edit;
 
     public viewHolder(View itemView)
     {
         super(itemView);
+        del=itemView.findViewById(R.id.Delete);
+        edit=itemView.findViewById(R.id.Edit);
         mview=itemView;
 
         itemView.setOnClickListener(new View.OnClickListener() {
@@ -32,6 +40,21 @@ public class viewHolder extends RecyclerView.ViewHolder {
             }
         });
 
+        del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mClickListener.onDeleteClick(view,getAdapterPosition());
+            }
+        });
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mClickListener.onEditClick(view,getAdapterPosition());
+            }
+        });
+
+
     }
     public void setDetails(Context ctx,String jobTitle,String jobDescription,String linkLogo)
     {
@@ -40,14 +63,6 @@ public class viewHolder extends RecyclerView.ViewHolder {
         ImageView logoImage=mview.findViewById(R.id.company_logo);
         //String Description=jobDescription.substring(0,20);
         Picasso.get().load(linkLogo).fit().centerCrop().placeholder(R.drawable.logo).error(R.drawable.error).into(logoImage);
-        cTitle.setText(jobTitle);
-        cDesc.setText(jobDescription);
-
-    }
-    public void setcompany_details(Context ctx,String jobTitle,String jobDescription)
-    {
-        TextView cTitle=mview.findViewById(R.id.companyTitle);
-        TextView cDesc=mview.findViewById(R.id.companyDescription);
         cTitle.setText(jobTitle);
         cDesc.setText(jobDescription);
 
@@ -68,6 +83,8 @@ public class viewHolder extends RecyclerView.ViewHolder {
     {
         void onItemClick(View view,int position);
         void onItemLongClick(View view,int position);
+        void onDeleteClick(View view,int position);
+        void onEditClick(View view,int position);
     }
 public void setOnClickListener(viewHolder.ClickListener clickListener)
 {

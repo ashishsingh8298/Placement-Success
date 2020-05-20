@@ -5,6 +5,17 @@ public class Comment {
     private String Comment;
     private String CompanyId;
     private String Date;
+    private String Name;
+
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
 
     public String getDate() {
         return Date;
@@ -32,11 +43,12 @@ public class Comment {
     }
 
 
-    public Comment(String userId, String comment,String CompanyId,String Date) {
+    public Comment(String userId, String comment,String CompanyId,String Date,String Name) {
         this.userId = userId;
         this.Comment=comment;
         this.CompanyId=CompanyId;
         this.Date=Date;
+        this.Name=Name;
     }
 
     public void setUserId(String userId) {

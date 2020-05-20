@@ -1,5 +1,6 @@
 package com.example.basic;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -94,9 +96,30 @@ public class Nav_Activity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.nav_logout) {
-                    FirebaseAuth.getInstance().signOut();
-                    finish();
-                    startActivity(new Intent(Nav_Activity.this, Login_Activity.class));
+
+                    AlertDialog.Builder builder=new AlertDialog.Builder(Nav_Activity.this);
+                    builder.setMessage("Do you want to LogOut?");
+                    builder.setTitle("Alert !");
+                    builder.setIcon(R.drawable.ic_settings_power_black_24dp);
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            FirebaseAuth.getInstance().signOut();
+                            finish();
+                            startActivity(new Intent(Nav_Activity.this, Login_Activity.class));
+                        }
+                    });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog=builder.create();
+                    alertDialog.show();
+
+
                 }
                 else if (id == R.id.nav_home) {
                     startActivity(new Intent(Nav_Activity.this, Nav_Activity.class));
@@ -154,6 +177,16 @@ public class Nav_Activity extends AppCompatActivity {
                     @Override
                     public void onItemLongClick(View view, int position) {
                         Toast.makeText(Nav_Activity.this,"long click",Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onDeleteClick(View view, int position) {
+
+                    }
+
+                    @Override
+                    public void onEditClick(View view, int position) {
 
                     }
                 });

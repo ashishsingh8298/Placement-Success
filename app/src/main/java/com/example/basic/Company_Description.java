@@ -1,5 +1,6 @@
 package com.example.basic;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -7,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,16 +39,17 @@ public class Company_Description extends AppCompatActivity {
     TextView c_name,c_desc,c_res,c_ctc,c_eligibility,c_skills,c_criteria,start_date,end_date,feed;
     Button apply,postComment;
     FirebaseDatabase mDatabase;
-    DatabaseReference mRef,cRef;
+    DatabaseReference mRef,cRef,uRef;
     FirebaseUser mUser;
     ImageView c_logo;
-    String temp,user_id,date;
+    String temp,user_id,date,u_name,u_id;
     Calendar calendar;
     SimpleDateFormat df;
     LinearLayoutManager mLinerLayoutManager;
     private RecyclerView mRecyclerView;
     FirebaseRecyclerAdapter<Comment,viewHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<Comment> options;
+    Comment c;
 
 
 
@@ -63,6 +68,7 @@ public class Company_Description extends AppCompatActivity {
         mDatabase= FirebaseDatabase.getInstance();
         mRef=mDatabase.getReference("Company").child(temp);
         cRef=FirebaseDatabase.getInstance().getReference("Company").child(temp).child("Comments");
+        uRef=mDatabase.getReference("Users");
         mLinerLayoutManager=new LinearLayoutManager(this);
         mLinerLayoutManager.setReverseLayout(true);
         mLinerLayoutManager.setStackFromEnd(true);
@@ -133,20 +139,25 @@ public class Company_Description extends AppCompatActivity {
                    ref.child("userId").setValue(user_id);
                    ref.child("Comment").setValue(comment);
                    ref.child("Date").setValue(date);
+                   ref.child("Name").setValue(mUser.getDisplayName());
                    feed.setText("");
+
                }
            }
-       });
-       showData();
 
+       });
+
+
+showData();
     }
     private  void  showData()
     {
         options=new FirebaseRecyclerOptions.Builder<Comment>().setQuery(cRef,Comment.class).build();
         firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Comment, viewHolder>(options) {
+
             @Override
             protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Comment model) {
-                holder.setComments(getApplicationContext(),model.getUserId(),model.getComment(),model.getDate());
+                holder.setComments(getApplicationContext(),model.getName(),model.getComment(),model.getDate());
             }
 
             @NonNull
@@ -163,7 +174,85 @@ public class Company_Description extends AppCompatActivity {
                     public void onItemLongClick(View view, int position) {
 
                     }
+
+                    @Override
+                    public void onDeleteClick(View view, int position) {
+
+                        AlertDialog.Builder builder=new AlertDialog.Builder(Company_Description.this);
+                        builder.setMessage("Do you want to delete this comment?");
+                        builder.setTitle("Alert !");
+                        builder.setIcon(R.drawable.ic_error_black_24dp);
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String del=firebaseRecyclerAdapter.getRef(position).getKey();
+                                cRef.child(del).removeValue();
+                                notifyDataSetChanged();
+                                Toast.makeText(Company_Description.this,"Comment successfully deleted",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        AlertDialog alertDialog=builder.create();
+                        alertDialog.show();
+
+                    }
+
+                    @Override
+                    public void onEditClick(View view, int position) {
+                        String edit=firebaseRecyclerAdapter.getRef(position).getKey();
+                        AlertDialog.Builder builder=new AlertDialog.Builder(Company_Description.this);
+
+                        builder.setMessage("Do you want to edit this comment?");
+                        builder.setTitle("Alert !");
+                        builder.setIcon(R.drawable.ic_edit_black_24dp);
+                        builder.setCancelable(false);
+                        final EditText input=new EditText(Company_Description.this);
+                        LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.MATCH_PARENT
+                        );
+                        input.setLayoutParams(lp);
+                        DatabaseReference t=cRef.child(edit);
+                        t.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String oldComment=dataSnapshot.child("Comment").getValue(String.class);
+                                input.setText(oldComment);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String newComment=input.getText().toString();
+                                cRef.child(edit).child("Comment").setValue(newComment);
+                                notifyDataSetChanged();
+                                Toast.makeText(Company_Description.this,"Comment edited.",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        AlertDialog alertDialog=builder.create();
+                        alertDialog.setView(input);
+                        alertDialog.show();
+
+                    }
                 });
+
                 return vHolder;
             }
         };
