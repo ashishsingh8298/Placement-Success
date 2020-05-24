@@ -2,7 +2,6 @@ package com.example.basic;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -125,8 +124,6 @@ public class searchActivity extends AppCompatActivity implements AdapterClass.On
         for (Company object:myList){
             myKeyList.add(keyList.get(list.indexOf(object)));
         }
-        Log.d(TAG, "mykeyList"+myKeyList);
-        Log.d(TAG, "keylist"+keyList);
         finalkeyList=myKeyList;
         AdapterClass adapterClass=new AdapterClass(myList,this::OnNoteClick);
         recyclerView.setAdapter(adapterClass);
@@ -134,8 +131,6 @@ public class searchActivity extends AppCompatActivity implements AdapterClass.On
 
     @Override
     public void OnNoteClick(int position) {
-//        Toast.makeText(this,"Clicked : "+position,Toast.LENGTH_SHORT);
-        Log.d(TAG, "OnNoteClick: "+position);
         String temp=finalkeyList.get(position);
         Intent intent = new Intent(searchActivity.this, Company_Description.class);
         intent.putExtra("str",temp);

@@ -35,14 +35,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class Company_Description extends AppCompatActivity {
+    private static final String TAG="Company_Description";
     private FirebaseAuth mAuth;
     TextView c_name,c_desc,c_res,c_ctc,c_eligibility,c_skills,c_criteria,start_date,end_date,feed;
     Button apply,postComment;
+//    linear layout for edit and delete button
+    LinearLayout linearLayoutButton;
     FirebaseDatabase mDatabase;
     DatabaseReference mRef,cRef,uRef;
     FirebaseUser mUser;
     ImageView c_logo;
-    String temp,user_id,date,u_name,u_id;
+    String temp,user_id,date,u_name,u_id,user_name;
     Calendar calendar;
     SimpleDateFormat df;
     LinearLayoutManager mLinerLayoutManager;
@@ -62,9 +65,11 @@ public class Company_Description extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         mUser=mAuth.getCurrentUser();
         user_id=mUser.getUid();
+        user_name=mUser.getDisplayName();
         calendar=Calendar.getInstance();
         SimpleDateFormat df=new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         date=df.format(calendar.getTime());
+
         mDatabase= FirebaseDatabase.getInstance();
         mRef=mDatabase.getReference("Company").child(temp);
         cRef=FirebaseDatabase.getInstance().getReference("Company").child(temp).child("Comments");
@@ -74,7 +79,7 @@ public class Company_Description extends AppCompatActivity {
         mLinerLayoutManager.setStackFromEnd(true);
         mRecyclerView= findViewById(R.id.list);
         mRecyclerView.setHasFixedSize(true);
-        showData();
+
         feed=findViewById(R.id.Feedback);
         c_logo=findViewById(R.id.Company_logo);
         postComment=findViewById(R.id.post);
@@ -88,6 +93,9 @@ public class Company_Description extends AppCompatActivity {
         start_date=findViewById(R.id.Company_start_content);
         end_date=findViewById(R.id.Company_end_content);
         apply=findViewById(R.id.apply);
+        linearLayoutButton=(LinearLayout) findViewById(R.id.buttonPanelForUser);
+        showData();
+
 
        mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -112,6 +120,7 @@ public class Company_Description extends AppCompatActivity {
                     c_criteria.setText(criteria);
                     start_date.setText(s_date);
                     end_date.setText(e_date);
+
             }
 
 
@@ -135,7 +144,7 @@ public class Company_Description extends AppCompatActivity {
                {
                    Toast.makeText(Company_Description.this, "Feedback received.", Toast.LENGTH_LONG).show();
                    String user_id = mAuth.getCurrentUser().getUid();
-                    DatabaseReference ref=cRef.push();
+                   DatabaseReference ref=cRef.push();
                    ref.child("userId").setValue(user_id);
                    ref.child("Comment").setValue(comment);
                    ref.child("Date").setValue(date);
@@ -152,18 +161,38 @@ showData();
     }
     private  void  showData()
     {
+
         options=new FirebaseRecyclerOptions.Builder<Comment>().setQuery(cRef,Comment.class).build();
+
         firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Comment, viewHolder>(options) {
 
             @Override
             protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Comment model) {
+
                 holder.setComments(getApplicationContext(),model.getName(),model.getComment(),model.getDate());
+
+                linearLayoutButton=(LinearLayout) findViewById(R.id.buttonPanelForUser);
+//                logic for showing edit and delete button
+                if(linearLayoutButton!=null){
+
+                    if (mUser.getUid().equals(model.getUserId())){
+                        linearLayoutButton.setVisibility(LinearLayout.VISIBLE);
+                    }
+                    else {
+                        linearLayoutButton.setVisibility(LinearLayout.INVISIBLE);
+                    }
+                }
+                else{
+
+                }
             }
 
             @NonNull
             @Override
             public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                linearLayoutButton=findViewById(R.id.buttonPanelForUser);
                 View itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_row,parent,false);
+
                 viewHolder vHolder=new viewHolder(itemView);
                 vHolder.setOnClickListener(new viewHolder.ClickListener() {
                     @Override
@@ -252,12 +281,14 @@ showData();
 
                     }
                 });
-
                 return vHolder;
             }
         };
+
         mRecyclerView.setLayoutManager(mLinerLayoutManager);
         firebaseRecyclerAdapter.startListening();
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+
+
     }
 }
