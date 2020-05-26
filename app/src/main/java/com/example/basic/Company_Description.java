@@ -33,6 +33,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class Company_Description extends AppCompatActivity {
     private static final String TAG="Company_Description";
@@ -53,6 +54,7 @@ public class Company_Description extends AppCompatActivity {
     FirebaseRecyclerAdapter<Comment,viewHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<Comment> options;
     Comment c;
+    SwipeRefreshLayout swipeRefreshLayout;
 
 
 
@@ -78,7 +80,9 @@ public class Company_Description extends AppCompatActivity {
         mLinerLayoutManager.setReverseLayout(true);
         mLinerLayoutManager.setStackFromEnd(true);
         mRecyclerView= findViewById(R.id.list);
-        mRecyclerView.setHasFixedSize(true);
+        //mRecyclerView.setHasFixedSize(true);
+       swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout);
+
 
         feed=findViewById(R.id.Feedback);
         c_logo=findViewById(R.id.Company_logo);
@@ -92,9 +96,12 @@ public class Company_Description extends AppCompatActivity {
         c_criteria=findViewById(R.id.Company_critera_content);
         start_date=findViewById(R.id.Company_start_content);
         end_date=findViewById(R.id.Company_end_content);
-        apply=findViewById(R.id.apply);
-        linearLayoutButton=(LinearLayout) findViewById(R.id.buttonPanelForUser);
+
         showData();
+
+        apply=findViewById(R.id.apply);
+
+
 
 
        mRef.addValueEventListener(new ValueEventListener() {
@@ -150,14 +157,19 @@ public class Company_Description extends AppCompatActivity {
                    ref.child("Date").setValue(date);
                    ref.child("Name").setValue(mUser.getDisplayName());
                    feed.setText("");
-
+                   mRecyclerView.setAdapter(firebaseRecyclerAdapter);
                }
            }
 
        });
+       swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+           @Override
+           public void onRefresh() {
+               mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+               swipeRefreshLayout.setRefreshing(false);
+           }
+       });
 
-
-showData();
     }
     private  void  showData()
     {
@@ -166,34 +178,14 @@ showData();
 
         firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Comment, viewHolder>(options) {
 
-            @Override
-            protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Comment model) {
-
-                holder.setComments(getApplicationContext(),model.getName(),model.getComment(),model.getDate());
-
-                linearLayoutButton=(LinearLayout) findViewById(R.id.buttonPanelForUser);
-//                logic for showing edit and delete button
-                if(linearLayoutButton!=null){
-
-                    if (mUser.getUid().equals(model.getUserId())){
-                        linearLayoutButton.setVisibility(LinearLayout.VISIBLE);
-                    }
-                    else {
-                        linearLayoutButton.setVisibility(LinearLayout.INVISIBLE);
-                    }
-                }
-                else{
-
-                }
-            }
-
             @NonNull
             @Override
             public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                linearLayoutButton=findViewById(R.id.buttonPanelForUser);
+
                 View itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_row,parent,false);
 
                 viewHolder vHolder=new viewHolder(itemView);
+                linearLayoutButton=(LinearLayout)findViewById(R.id.buttonPanelForUser);
                 vHolder.setOnClickListener(new viewHolder.ClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -217,7 +209,8 @@ showData();
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String del=firebaseRecyclerAdapter.getRef(position).getKey();
                                 cRef.child(del).removeValue();
-                                notifyDataSetChanged();
+                                notifyItemRemoved(position);
+                                mRecyclerView.setAdapter(firebaseRecyclerAdapter);
                                 Toast.makeText(Company_Description.this,"Comment successfully deleted",Toast.LENGTH_LONG).show();
                             }
                         });
@@ -266,6 +259,7 @@ showData();
                                 String newComment=input.getText().toString();
                                 cRef.child(edit).child("Comment").setValue(newComment);
                                 notifyDataSetChanged();
+                                mRecyclerView.setAdapter(firebaseRecyclerAdapter);
                                 Toast.makeText(Company_Description.this,"Comment edited.",Toast.LENGTH_LONG).show();
                             }
                         });
@@ -278,17 +272,29 @@ showData();
                         AlertDialog alertDialog=builder.create();
                         alertDialog.setView(input);
                         alertDialog.show();
-
                     }
                 });
                 return vHolder;
             }
+
+            @Override
+            protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Comment model) {
+                linearLayoutButton=(LinearLayout) findViewById(R.id.buttonPanelForUser);
+
+                    if (mUser.getUid().equals(model.getUserId())){
+                        holder.linearLayoutButton.setVisibility(LinearLayout.VISIBLE);
+                    }
+                    else {
+                        holder.linearLayoutButton.setVisibility(LinearLayout.INVISIBLE);
+                    }
+                holder.setComments(getApplicationContext(),model.getName(),model.getComment(),model.getDate());
+
+            }
+
         };
 
         mRecyclerView.setLayoutManager(mLinerLayoutManager);
         firebaseRecyclerAdapter.startListening();
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
-
-
     }
 }

@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,10 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 public class viewHolder extends RecyclerView.ViewHolder {
     View mview;
     Button del,edit;
+    LinearLayout linearLayoutButton;
 
     public viewHolder(View itemView)
     {
         super(itemView);
+        linearLayoutButton=(LinearLayout)itemView.findViewById(R.id.buttonPanelForUser);
         del=itemView.findViewById(R.id.Delete);
         edit=itemView.findViewById(R.id.Edit);
         mview=itemView;

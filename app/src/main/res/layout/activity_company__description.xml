@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Company_Description">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <ScrollView
     android:id="@+id/Scroll"
     android:layout_width="match_parent"
@@ -231,12 +235,18 @@
             android:textStyle="bold"
             />
 
+<!--<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">-->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+<!--</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -273,4 +283,5 @@
 
     </LinearLayout>
 </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>
