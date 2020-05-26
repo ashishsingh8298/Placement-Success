@@ -64,12 +64,19 @@ public class viewHolder extends RecyclerView.ViewHolder {
         TextView cTitle=mview.findViewById(R.id.company_name);
         TextView cDesc=mview.findViewById(R.id.company_desc);
         ImageView logoImage=mview.findViewById(R.id.company_logo);
-        //String Description=jobDescription.substring(0,20);
         Picasso.get().load(linkLogo).fit().centerCrop().placeholder(R.drawable.logo).error(R.drawable.error).into(logoImage);
         cTitle.setText(jobTitle);
         cDesc.setText(jobDescription);
 
     }
+    /*public void setAppliedJobs(Context ctx,String jobTitle,String jobDescription)
+    {
+        TextView cTitle=mview.findViewById(R.id.companyTitle);
+        TextView cDesc=mview.findViewById(R.id.companyDescription);
+        cTitle.setText(jobTitle);
+        cDesc.setText(jobDescription);
+
+    }*/
     public void setComments(Context ctx,String userId,String Comment,String Date)
     {
         TextView user_Id=mview.findViewById(R.id.user_name);

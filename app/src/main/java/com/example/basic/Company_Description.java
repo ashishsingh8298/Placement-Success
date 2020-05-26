@@ -2,6 +2,8 @@ package com.example.basic;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -46,7 +48,7 @@ public class Company_Description extends AppCompatActivity {
     DatabaseReference mRef,cRef,uRef;
     FirebaseUser mUser;
     ImageView c_logo;
-    String temp,user_id,date,u_name,u_id,user_name;
+    String temp,user_id,date,u_name,u_id,user_name,apply_link;
     Calendar calendar;
     SimpleDateFormat df;
     LinearLayoutManager mLinerLayoutManager;
@@ -117,6 +119,7 @@ public class Company_Description extends AppCompatActivity {
                 String criteria =dataSnapshot.child("elegibilityCriteria").getValue(String.class);
                 String s_date =dataSnapshot.child("applyDateFrom").getValue(String.class);
                 String e_date =dataSnapshot.child("applyDateTo").getValue(String.class);
+                apply_link=dataSnapshot.child("link").getValue(String.class);
                 Picasso.get().load(logo).fit().centerCrop().placeholder(R.drawable.images).error(R.drawable.error).into(c_logo);
                     c_name.setText(name);
                     c_desc.setText(desc);
@@ -128,6 +131,15 @@ public class Company_Description extends AppCompatActivity {
                     start_date.setText(s_date);
                     end_date.setText(e_date);
 
+                SimpleDateFormat sdf=new SimpleDateFormat("MM/dd/yyyy");
+                String apply_date=sdf.format(calendar.getTime());
+
+                if(e_date.compareTo(apply_date)<0)
+                {
+                    apply.setEnabled(false);
+                    apply.setBackgroundColor(Color.GRAY);
+                }
+
             }
 
 
@@ -137,7 +149,16 @@ public class Company_Description extends AppCompatActivity {
             }
         });
 
-
+        apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseReference u_id=uRef.child(user_id).child("appliedJobs");
+                u_id.child(temp).setValue("applied");
+                Uri uri=Uri.parse(apply_link);
+                Intent i=new Intent(Intent.ACTION_VIEW,uri);
+                startActivity(i);
+            }
+        });
 
        postComment.setOnClickListener(new View.OnClickListener() {
            @Override

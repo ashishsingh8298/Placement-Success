@@ -10,6 +10,25 @@
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_account_circle_black_24dp"
             android:title="@string/menu_gallery" />
+
+        <item android:title="Jobs">
+                <menu><item
+                    android:id="@+id/nav_search_job"
+                    android:icon="@drawable/ic_search_black_24dp"
+                    android:title="Search Jobs" />
+                        <item
+                            android:id="@+id/nav_recommended_job"
+                            android:icon="@drawable/ic_playlist_add_check_black_24dp"
+                            android:title="Recommended Jobs" />
+                        <item
+                            android:id="@+id/nav_applied_job"
+                            android:icon="@drawable/ic_touch_app_black_24dp"
+                            android:title="Applied Jobs" />
+                </menu>
+        </item>
+
+        <item android:title="Communicate">
+                <menu>
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_settings_black_24dp"
@@ -17,6 +36,7 @@
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_settings_power_black_24dp"
-            android:title="@string/menu_logout" />
+            android:title="@string/menu_logout" /></menu>
+        </item>
 
 </menu>

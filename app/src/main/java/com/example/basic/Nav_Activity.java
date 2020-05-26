@@ -2,13 +2,17 @@ package com.example.basic;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,6 +45,9 @@ public class Nav_Activity extends AppCompatActivity {
     FirebaseRecyclerAdapter<Company,viewHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<Company> options;
     private DatabaseReference mDatabase;
+    ImageView u_image;
+    FirebaseUser m_user;
+    TextView u_name,u_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +60,10 @@ public class Nav_Activity extends AppCompatActivity {
         mLinerLayoutManager.setStackFromEnd(true);
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Company");
         mRecyclerView= findViewById(R.id.list);
-        //mCompanylist.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
+
+        m_user=mAuth.getCurrentUser();
+
         showData();
 
 
@@ -122,16 +131,26 @@ public class Nav_Activity extends AppCompatActivity {
 
                 }
                 else if (id == R.id.nav_home) {
-                    startActivity(new Intent(Nav_Activity.this, Nav_Activity.class));
+                    drawer.closeDrawer(GravityCompat.START);
                 }
                 else if (id==R.id.nav_profile)
                 {
                     startActivity(new Intent(Nav_Activity.this,Profile_activity.class));
                 }
+                else if(id==R.id.nav_search_job)
+                {
+                    startActivity(new Intent(Nav_Activity.this,searchActivity.class));
+                }
+                else if(id==R.id.nav_applied_job)
+                {
+                    startActivity(new Intent(Nav_Activity.this,appliedJobsActivity.class));
+                }
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             }
         });
+
+updateNavHeader();
     }
 
     @Override
@@ -153,13 +172,13 @@ public class Nav_Activity extends AppCompatActivity {
     }
     private  void  showData()
     {
+
         options=new FirebaseRecyclerOptions.Builder<Company>().setQuery(mDatabase,Company.class).build();
         firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Company, viewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Company model) {
                 holder.setDetails(getApplicationContext(),model.getJobTitle(),model.getJobDescription(),model.getLinkLogo());
             }
-
             @NonNull
             @Override
             public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -196,6 +215,18 @@ public class Nav_Activity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLinerLayoutManager);
         firebaseRecyclerAdapter.startListening();
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+    }
+
+    public void updateNavHeader()
+    {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView=navigationView.getHeaderView(0);
+        u_image=headerView.findViewById(R.id.user_image);
+        u_name=headerView.findViewById(R.id.NameOfUser);
+        u_email=headerView.findViewById(R.id.user_email);
+        u_name.setText(m_user.getDisplayName());
+        u_email.setText(m_user.getEmail());
+        Glide.with(this).load(m_user.getPhotoUrl()).into(u_image);
     }
     @Override
     protected void onStart() {

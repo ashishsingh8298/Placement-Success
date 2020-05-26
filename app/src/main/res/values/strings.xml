@@ -20,7 +20,7 @@
 
     <string name="menu_home">Feed</string>
     <string name="menu_gallery">Profile</string>
-    <string name="menu_slideshow">Setting</string>
+    <string name="menu_slideshow">Settings</string>
     <string name="menu_logout">LogOut</string>
     <string name="title_activity_search">searchActivity</string>
 
