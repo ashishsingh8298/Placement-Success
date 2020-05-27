@@ -20,8 +20,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Profile_activity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     CircleImageView profileImage ;
-    FirebaseDatabase mDatabase;
-    DatabaseReference uRef;
     FirebaseUser mUser;
     TextView fullName,phoneNumber,stream,roll,dob,year,email;
     @Override
