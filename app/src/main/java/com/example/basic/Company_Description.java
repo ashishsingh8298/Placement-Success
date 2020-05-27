@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +75,7 @@ public class Company_Description extends AppCompatActivity {
         user_id=mUser.getUid();
         user_name=mUser.getDisplayName();
         calendar=Calendar.getInstance();
-        SimpleDateFormat df=new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        df=new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         date=df.format(calendar.getTime());
 
         mDatabase= FirebaseDatabase.getInstance();
@@ -137,11 +138,17 @@ public class Company_Description extends AppCompatActivity {
                 SimpleDateFormat sdf=new SimpleDateFormat("MM/dd/yyyy");
                 String cur_date=sdf.format(calendar.getTime());
 
-                if(e_date.compareTo(cur_date)<0 || s_date.compareTo(cur_date)>0)
+                if(e_date.compareTo(cur_date)<0)
                 {
                     apply.setEnabled(false);
                     apply.setBackgroundColor(Color.GRAY);
-                    apply.setText("Link Inactive");
+                    apply.setText("Expired");
+                }
+                if(s_date.compareTo(cur_date)>0)
+                {
+                    apply.setEnabled(false);
+                    apply.setBackgroundColor(Color.GRAY);
+                    apply.setText("Coming Soon");
                 }
 
             }
