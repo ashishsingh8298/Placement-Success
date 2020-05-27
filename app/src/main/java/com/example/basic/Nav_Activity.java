@@ -71,13 +71,14 @@ public class Nav_Activity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser mUser = mAuth.getCurrentUser();
-                if (mUser == null) {
+                if (mUser == null || mUser.isEmailVerified()==false) {
                     Intent i=new Intent(Nav_Activity.this, Login_Activity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                 }
             }
         };
+        updateNavHeader();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -150,7 +151,7 @@ public class Nav_Activity extends AppCompatActivity {
             }
         });
 
-updateNavHeader();
+
     }
 
     @Override
@@ -224,9 +225,12 @@ updateNavHeader();
         u_image=headerView.findViewById(R.id.user_image);
         u_name=headerView.findViewById(R.id.NameOfUser);
         u_email=headerView.findViewById(R.id.user_email);
-        u_name.setText(m_user.getDisplayName());
-        u_email.setText(m_user.getEmail());
-        Glide.with(this).load(m_user.getPhotoUrl()).into(u_image);
+        if (m_user!=null){
+            u_name.setText(m_user.getDisplayName());
+            u_email.setText(m_user.getEmail());
+            Glide.with(this).load(m_user.getPhotoUrl()).into(u_image);
+        }
+
     }
     @Override
     protected void onStart() {
