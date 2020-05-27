@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         image.setAnimation(topAnim);
         logo.setAnimation(bottomAnim);
-        slogon.setAnimation(bottomAnim);
+        //slogon.setAnimation(bottomAnim);
 
 
         new Handler().postDelayed(new Runnable(){

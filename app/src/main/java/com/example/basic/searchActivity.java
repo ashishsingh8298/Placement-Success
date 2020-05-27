@@ -32,12 +32,6 @@ public class searchActivity extends AppCompatActivity implements AdapterClass.On
     ArrayList<String> finalkeyList=new ArrayList<>();
 
 
-    LinearLayoutManager mLinerLayoutManager;
-    private RecyclerView mRecyclerView;
-    FirebaseRecyclerAdapter<Company,viewHolder> firebaseRecyclerAdapter;
-    FirebaseRecyclerOptions<Company> options;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +41,6 @@ public class searchActivity extends AppCompatActivity implements AdapterClass.On
         ref= FirebaseDatabase.getInstance().getReference().child("Company");
         recyclerView=findViewById(R.id.rv);
         searchView=findViewById(R.id.searchView);
-
-       /*mLinerLayoutManager=new LinearLayoutManager(this);
-        mLinerLayoutManager.setReverseLayout(true);
-        mLinerLayoutManager.setStackFromEnd(true);
-        mRecyclerView= findViewById(R.id.rv);
-        mRecyclerView.setHasFixedSize(true);
-        showData();*/
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override

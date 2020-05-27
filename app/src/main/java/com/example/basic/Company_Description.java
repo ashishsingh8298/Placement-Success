@@ -132,12 +132,13 @@ public class Company_Description extends AppCompatActivity {
                     end_date.setText(e_date);
 
                 SimpleDateFormat sdf=new SimpleDateFormat("MM/dd/yyyy");
-                String apply_date=sdf.format(calendar.getTime());
+                String cur_date=sdf.format(calendar.getTime());
 
-                if(e_date.compareTo(apply_date)<0)
+                if(e_date.compareTo(cur_date)<0 || s_date.compareTo(cur_date)>0)
                 {
                     apply.setEnabled(false);
                     apply.setBackgroundColor(Color.GRAY);
+                    apply.setText("Link Inactive");
                 }
 
             }
@@ -152,11 +153,29 @@ public class Company_Description extends AppCompatActivity {
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference u_id=uRef.child(user_id).child("appliedJobs");
-                u_id.child(temp).setValue("applied");
-                Uri uri=Uri.parse(apply_link);
-                Intent i=new Intent(Intent.ACTION_VIEW,uri);
-                startActivity(i);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Company_Description.this);
+                builder.setMessage("Do you want to apply for this job?");
+                builder.setTitle("Alert !");
+                builder.setIcon(R.drawable.ic_error_black_24dp);
+                builder.setCancelable(false);
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DatabaseReference u_id=uRef.child(user_id).child("appliedJobs");
+                        u_id.child(temp).setValue("applied");
+                        Uri uri=Uri.parse(apply_link);
+                        Intent in=new Intent(Intent.ACTION_VIEW,uri);
+                        startActivity(in);
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
 
