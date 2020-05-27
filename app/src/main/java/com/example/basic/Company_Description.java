@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -327,7 +330,16 @@ public class Company_Description extends AppCompatActivity {
                     else {
                         holder.linearLayoutButton.setVisibility(LinearLayout.INVISIBLE);
                     }
-                holder.setComments(getApplicationContext(),model.getName(),model.getComment(),model.getDate());
+                String dateStr = model.getDate();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
+                try {
+                    Date date = dateFormat.parse(dateStr);
+                    String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime() , Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
+                    holder.setComments(getApplicationContext(),model.getName(),model.getComment(),niceDateStr);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
 
             }
 
