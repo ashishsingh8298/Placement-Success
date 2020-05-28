@@ -2,7 +2,10 @@ package com.example.basic;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -26,8 +30,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 //import com.google.firebase.quickstart.auth.R;
 //import com.google.firebase.quickstart.auth.databinding.ActivityGoogleBinding;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -198,9 +208,11 @@ public class Login_Activity extends AppCompatActivity {
                             current_user.child("Name").setValue(user.getDisplayName());
                             current_user.child("Email").setValue(user.getEmail());
                             current_user.child("Phone Number").setValue(user.getPhoneNumber());
-                            current_user.child("profilePhoto").setValue(user.getPhotoUrl()).toString();
-                            //Toast.makeText(Login_Activity.this,user.getPhoneNumber(),Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(Login_Activity.this,Nav_Activity.class));
+                            //current_user.child("profilePhoto").child("imageurl").setValue(user.getPhotoUrl()).toString();
+
+
+
+                    startActivity(new Intent(Login_Activity.this,Nav_Activity.class));
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(Login_Activity.this,"Authentication Failed", Toast.LENGTH_SHORT).show();

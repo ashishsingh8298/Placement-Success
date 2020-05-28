@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,6 +50,7 @@ public class Profile_activity extends AppCompatActivity {
     DatabaseReference uRef;
     Uri imageUri;
     String photo;
+    ProgressDialog mDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,7 @@ public class Profile_activity extends AppCompatActivity {
         mUser=mAuth.getCurrentUser();
         Folder= FirebaseStorage.getInstance().getReference().child("Users").child(mUser.getUid());
         uRef=FirebaseDatabase.getInstance().getReference().child("Users").child(mUser.getUid());
+        mDialog = new ProgressDialog(this);
 
         profileImage = findViewById(R.id.imageview_profile);
         fullName = findViewById(R.id.NameOfUser);
@@ -87,10 +90,14 @@ public class Profile_activity extends AppCompatActivity {
                 else
                     dob.setText(u_dob);
                 if(photo!=null) {
-                    //Glide.with(Profile_activity.this).load(photo).into(profileImage);
-                    Picasso.get().load(photo).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(profileImage);
+                    //Picasso.get().load(photo).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(profileImage);
+                    Glide.with(Profile_activity.this).load(photo).into(profileImage);
                 }
-
+                else
+                {
+                    //Glide.with(Profile_activity.this).load(mUser.getPhotoUrl()).into(profileImage);
+                    Picasso.get().load(mUser.getPhotoUrl()).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(profileImage);
+                }
             }
 
             @Override
@@ -119,6 +126,7 @@ public class Profile_activity extends AppCompatActivity {
               gallery.setType("image/*");
               gallery.setAction(Intent.ACTION_GET_CONTENT);
               startActivityForResult(Intent.createChooser(gallery,"Select Picture"),PICK_IMAGE);
+
           }
       });
 
@@ -126,15 +134,19 @@ public class Profile_activity extends AppCompatActivity {
 
    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
+       mDialog.setMessage("Processing...");
+       mDialog.show();
         if(requestCode==PICK_IMAGE && resultCode==RESULT_OK && data!=null)
         {
+
             imageUri=data.getData();
             try
                 {
                     Bitmap bitmap=MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
                     profileImage.setImageBitmap((bitmap));
-                    //uRef.child("profilePhoto").setValue(imageUri);
+
                 }
             catch (IOException e)
             {
@@ -145,6 +157,7 @@ public class Profile_activity extends AppCompatActivity {
             Imagename.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                         Imagename.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
@@ -156,14 +169,31 @@ public class Profile_activity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(Profile_activity.this,"Profile Photo Updated",Toast.LENGTH_LONG).show();
+                                        mDialog.dismiss();
                                     }
                                 });
 
                             }
                         });
                 }
+
             });
+
+            uRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    photo=dataSnapshot.child("profilePhoto").child("imageurl").getValue(String.class);
+                    Picasso.get().load(mUser.getPhotoUrl()).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(profileImage);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
         }
     }
+
 
 }
