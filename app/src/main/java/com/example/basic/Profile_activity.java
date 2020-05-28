@@ -195,7 +195,6 @@ public class Profile_activity extends AppCompatActivity {
 
         }
         else {
-            mDialog.dismiss();
             Toast.makeText(Profile_activity.this,"No Photo Selected",Toast.LENGTH_LONG).show();
         }
     }
