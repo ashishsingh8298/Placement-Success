@@ -19,8 +19,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -38,6 +41,7 @@ public class Nav_Activity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    DatabaseReference uRef;
     private ActionBarDrawerToggle mToggle;
     LinearLayoutManager mLinerLayoutManager;
     private RecyclerView mRecyclerView;
@@ -48,6 +52,7 @@ public class Nav_Activity extends AppCompatActivity {
     ImageView u_image;
     FirebaseUser m_user;
     TextView u_name,u_email;
+    String Uname,uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,22 +67,38 @@ public class Nav_Activity extends AppCompatActivity {
         mRecyclerView= findViewById(R.id.list);
         mRecyclerView.setHasFixedSize(true);
 
-        m_user=mAuth.getCurrentUser();
-
-        showData();
-
-
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser mUser = mAuth.getCurrentUser();
-                if (mUser == null || mUser.isEmailVerified()==false) {
+                if (mUser== null || mUser.isEmailVerified()==false) {
                     Intent i=new Intent(Nav_Activity.this, Login_Activity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                 }
             }
         };
+
+        m_user=mAuth.getCurrentUser();
+        //uid=m_user.getUid();
+        /*uRef=FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+        uRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Uname=dataSnapshot.child("Name").getValue(String.class);
+                //Toast.makeText(Nav_Activity.this,Uname,Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });*/
+
+        showData();
+
+
+
         updateNavHeader();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -222,6 +243,8 @@ public class Nav_Activity extends AppCompatActivity {
     {
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView=navigationView.getHeaderView(0);
+
+
         u_image=headerView.findViewById(R.id.user_image);
         u_name=headerView.findViewById(R.id.NameOfUser);
         u_email=headerView.findViewById(R.id.user_email);

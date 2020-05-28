@@ -198,6 +198,8 @@ public class Login_Activity extends AppCompatActivity {
                             current_user.child("Name").setValue(user.getDisplayName());
                             current_user.child("Email").setValue(user.getEmail());
                             current_user.child("Phone Number").setValue(user.getPhoneNumber());
+                            current_user.child("profilePhoto").setValue(user.getPhotoUrl()).toString();
+                            //Toast.makeText(Login_Activity.this,user.getPhoneNumber(),Toast.LENGTH_LONG).show();
                             startActivity(new Intent(Login_Activity.this,Nav_Activity.class));
                         } else {
                             // If sign in fails, display a message to the user.

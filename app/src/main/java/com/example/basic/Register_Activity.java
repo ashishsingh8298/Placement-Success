@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,20 +14,27 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.HashMap;
 
 public class Register_Activity extends AppCompatActivity {
     TextInputEditText name,emailid,password,phoneNo;
     Button Signup,SigninPage;
     FirebaseAuth mAuth;
+    FirebaseUser mUser;
     ProgressDialog mDialog;
     private DatabaseReference mDatabase;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,7 @@ public class Register_Activity extends AppCompatActivity {
 
         mDialog=new ProgressDialog(this);
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Users");
+
 
         mAuth=FirebaseAuth.getInstance();
         emailid=findViewById(R.id.Email);
@@ -107,6 +116,7 @@ public class Register_Activity extends AppCompatActivity {
                                             current_user.child("Name").setValue(sname);
                                             current_user.child("Email").setValue(email);
                                             current_user.child("Phone Number").setValue(phone);
+
                                             name.setText("");
                                             emailid.setText("");
                                             phoneNo.setText("");
