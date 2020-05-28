@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -192,6 +193,10 @@ public class Profile_activity extends AppCompatActivity {
                 }
             });
 
+        }
+        else {
+            mDialog.dismiss();
+            Toast.makeText(Profile_activity.this,"No Photo Selected",Toast.LENGTH_LONG).show();
         }
     }
 
