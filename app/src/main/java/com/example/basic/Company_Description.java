@@ -348,8 +348,6 @@ public class Company_Description extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
-
             }
 
         };

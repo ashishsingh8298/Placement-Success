@@ -1,5 +1,6 @@
 package com.example.basic;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,14 +12,19 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class editProfile extends AppCompatActivity {
     private FirebaseAuth mAuth;
     TextInputEditText fullName,phoneNumber,dob;
     FirebaseUser mUser;
+    String name,dob1,phone;
     Button update;
+    DatabaseReference uRef;
     private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +36,29 @@ public class editProfile extends AppCompatActivity {
         fullName=findViewById(R.id.Name);
         phoneNumber=findViewById(R.id.Phone);
         dob=findViewById(R.id.dob);
+        String user_id = mAuth.getCurrentUser().getUid();
+        DatabaseReference current_user = mDatabase.child(user_id);
 
-        fullName.setText(mUser.getDisplayName());
-        phoneNumber.setText(mUser.getPhoneNumber());
+        uRef=FirebaseDatabase.getInstance().getReference().child("Users").child(mUser.getUid());
+
+        uRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                name=dataSnapshot.child("Name").getValue(String.class);
+                phone=dataSnapshot.child("Phone Number").getValue(String.class);
+                dob1=dataSnapshot.child("dob").getValue(String.class);
+                fullName.setText(name);
+                phoneNumber.setText(phone);
+                dob.setText(dob1);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
         update=findViewById(R.id.Update);
 
         update.setOnClickListener(new View.OnClickListener() {
