@@ -136,11 +136,11 @@ public class Profile_activity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-       mDialog.setMessage("Processing...");
-       mDialog.show();
+
         if(requestCode==PICK_IMAGE && resultCode==RESULT_OK && data!=null)
         {
-
+            mDialog.setMessage("Processing...");
+            mDialog.show();
             imageUri=data.getData();
             try
                 {
