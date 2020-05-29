@@ -1,9 +1,13 @@
 package com.example.basic;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +19,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
@@ -279,6 +286,26 @@ public class Nav_Activity extends AppCompatActivity {
 
                 }
             });
+
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+                NotificationChannel channel=
+                        new NotificationChannel("MyNotifications","MyNotifications", NotificationManager.IMPORTANCE_DEFAULT);
+
+                NotificationManager manager=getSystemService(NotificationManager.class);
+                manager.createNotificationChannel(channel);
+            }
+
+            FirebaseMessaging.getInstance().subscribeToTopic("general")
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            String msg = "Successful";
+                            if (!task.isSuccessful()) {
+                                msg = "Failed";
+                            }
+//                            Toast.makeText(Nav_Activity.this, msg, Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
 
     }
