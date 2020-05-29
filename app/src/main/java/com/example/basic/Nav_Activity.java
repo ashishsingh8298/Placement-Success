@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -66,6 +67,7 @@ public class Nav_Activity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Company");
         mRecyclerView= findViewById(R.id.list);
         mRecyclerView.setHasFixedSize(true);
+
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -245,13 +247,38 @@ public class Nav_Activity extends AppCompatActivity {
         View headerView=navigationView.getHeaderView(0);
 
 
+
+
         u_image=headerView.findViewById(R.id.user_image);
         u_name=headerView.findViewById(R.id.NameOfUser);
         u_email=headerView.findViewById(R.id.user_email);
         if (m_user!=null){
-            u_name.setText(m_user.getDisplayName());
-            u_email.setText(m_user.getEmail());
-            Glide.with(this).load(m_user.getPhotoUrl()).into(u_image);
+            m_user=mAuth.getCurrentUser();
+            uRef=FirebaseDatabase.getInstance().getReference().child("Users").child(m_user.getUid());
+            uRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String photo=dataSnapshot.child("profilePhoto").child("imageurl").getValue(String.class);
+                    String name=dataSnapshot.child("Name").getValue(String.class);
+                    String email=dataSnapshot.child("Email").getValue(String.class);
+                    if(photo!=null) {
+                        //Picasso.get().load(photo).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(profileImage);
+                        Glide.with(Nav_Activity.this).load(photo).into(u_image);
+                    }
+                    else
+                    {
+                        Picasso.get().load(m_user.getPhotoUrl()).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(u_image);
+                    }
+
+                    u_name.setText(name);
+                    u_email.setText(email);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
 
     }
