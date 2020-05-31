@@ -13,16 +13,19 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Comment;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class viewHolder extends RecyclerView.ViewHolder {
     View mview;
     Button del,edit;
     LinearLayout linearLayoutButton;
+    CardView cardView;
 
     public viewHolder(View itemView)
     {
         super(itemView);
+        cardView=itemView.findViewById(R.id.card);
         linearLayoutButton=(LinearLayout)itemView.findViewById(R.id.buttonPanelForUser);
         del=itemView.findViewById(R.id.Delete);
         edit=itemView.findViewById(R.id.Edit);
@@ -77,6 +80,11 @@ public class viewHolder extends RecyclerView.ViewHolder {
         cDesc.setText(jobDescription);
 
     }*/
+    public void setSkills(Context ctx,String name)
+    {
+        TextView skill=mview.findViewById(R.id.skill_name);
+        skill.setText(name);
+    }
     public void setComments(Context ctx,String userId,String Comment,String Date)
     {
         TextView user_Id=mview.findViewById(R.id.user_name);

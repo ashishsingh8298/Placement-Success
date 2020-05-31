@@ -62,6 +62,7 @@ public class Nav_Activity extends AppCompatActivity {
     TextView u_name,u_email;
     String Uname,uid;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,6 +176,39 @@ public class Nav_Activity extends AppCompatActivity {
                 else if(id==R.id.nav_applied_job)
                 {
                     startActivity(new Intent(Nav_Activity.this,appliedJobsActivity.class));
+                }
+                else if(id==R.id.nav_recommended_job)
+                {
+                    if(m_user!=null)
+                    {
+                        m_user=mAuth.getCurrentUser();
+                        uRef=FirebaseDatabase.getInstance().getReference().child("Users").child(m_user.getUid());
+                        uRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String skill=dataSnapshot.child("skills").getValue(String.class);
+
+                                if(skill.equals("")|| skill==null)
+                                {
+                                    startActivity(new Intent(Nav_Activity.this,skillNotSelected.class));
+                                }else {
+                                    startActivity(new Intent(Nav_Activity.this, recommendedJobs.class));
+                                }
+                                }
+
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+                }
+                else if(id==R.id.nav_selectSkills)
+                {
+                    startActivity(new Intent(Nav_Activity.this,Selectskills_activity.class));
+
                 }
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
