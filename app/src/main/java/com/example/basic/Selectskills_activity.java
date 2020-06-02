@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.internal.FlowLayout;
 import com.google.android.material.snackbar.Snackbar;
@@ -34,7 +36,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 public class Selectskills_activity extends AppCompatActivity {
     LinearLayout linearLayoutButton;
@@ -49,6 +54,7 @@ public class Selectskills_activity extends AppCompatActivity {
     FirebaseAuth mAuth;
     String addSkill;
     TextView sk;
+    private ChipGroup mchipGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +62,7 @@ public class Selectskills_activity extends AppCompatActivity {
         setContentView(R.layout.activity_selectskills_activity);
 
         mAuth=FirebaseAuth.getInstance();
+        mchipGroup=findViewById(R.id.chipGroup);
         cardView=findViewById(R.id.card);
         mDatabase= FirebaseDatabase.getInstance();
         mRef=mDatabase.getReference("Skills");
@@ -70,7 +77,23 @@ public class Selectskills_activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String skill=dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("skills").getValue(String.class);
-                sk.setText("Your Skills : "+skill);
+                if(skill!=null) {
+                    if(!(skill.equals(""))) {
+                        sk.setText("Your Skills : " + skill);
+                        String str[] = skill.split(",");
+                        List<String> slist = new ArrayList<String>();
+                        slist = Arrays.asList(str);
+                        for (String s : slist) {
+                            Chip chip = new Chip(Selectskills_activity.this);
+                            chip.setText(s);
+                            chip.setCloseIconVisible(true);
+                            chip.setCheckable(false);
+                            chip.setClickable(false);
+                            mchipGroup.addView(chip);
+                            mchipGroup.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
             }
 
             @Override
@@ -82,8 +105,8 @@ public class Selectskills_activity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            /*Snackbar.make(view,addSkill, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
+            Snackbar.make(view,addSkill, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             uRef.child(mAuth.getCurrentUser().getUid()).child("skills").setValue(addSkill);
            // startActivity(new Intent(Selectskills_activity.this,recommendedJobs.class));
 
@@ -113,11 +136,27 @@ public class Selectskills_activity extends AppCompatActivity {
                         if(holder.cardView.isSelected())
                         {
                             addSkill=addSkill+model.getName()+",";
+                            Chip chip=new Chip(Selectskills_activity.this);
+                            chip.setText(model.getName());
+                            chip.setCloseIconVisible(true);
+                            chip.setCheckable(false);
+                            chip.setClickable(false);
+                            mchipGroup.addView(chip);
+                            chip.setOnCloseIconClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    mchipGroup.removeView(chip);
+                                    addSkill=addSkill.replace(model.getName()+",","");
+                                }
+                            });
+                            mchipGroup.setVisibility(View.VISIBLE);
                         }
-                        else if(!holder.cardView.isSelected())
+                        /*else if(!holder.cardView.isSelected())
                         {
+                            //Chip chip=(Chip)view;
+                            //mchipGroup.removeView(chip);
                             addSkill=addSkill.replace(model.getName()+",","");
-                        }
+                        }*/
                     }
                 });
             }

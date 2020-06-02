@@ -4,45 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Selectskills_activity">
+    tools:context=".selectSkillsActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
         <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:id="@+id/chipGroup"
             android:visibility="gone"></com.google.android.material.chip.ChipGroup>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/skillName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Add Your Skills"
-        android:textColor="#000"
-        android:layout_margin="5dp"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:paddingTop="10dp"
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -55,6 +28,5 @@
         android:layout_alignParentRight="true"
         app:srcCompat="@drawable/ic_check_black_24dp"
         app:fabSize="auto"/>
-
 
 </RelativeLayout>

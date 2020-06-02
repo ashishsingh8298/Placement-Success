@@ -18,7 +18,7 @@ public class skillNotSelected extends AppCompatActivity {
         selectSkill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(skillNotSelected.this,Selectskills_activity.class));
+                startActivity(new Intent(skillNotSelected.this,selectSkillsActivity.class));
             }
         });
     }

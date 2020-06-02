@@ -7,8 +7,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +40,8 @@ public class recommendedJobs extends AppCompatActivity implements AdapterClass.O
     ArrayList<String> myKeyList;
     ArrayList<String> finalkeyList=new ArrayList<>();
     String userId,skill;
+    private ChipGroup mchipGroup;
+    Button addMoreSkill;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +51,50 @@ public class recommendedJobs extends AppCompatActivity implements AdapterClass.O
         mAuth = FirebaseAuth.getInstance();
         ref= FirebaseDatabase.getInstance().getReference().child("Company");
         recyclerView=findViewById(R.id.rv);
+        mchipGroup=findViewById(R.id.chipGroup);
+        addMoreSkill=findViewById(R.id.addSkill);
 
         mUser=mAuth.getCurrentUser();
         userId=mUser.getUid();
         uRef=FirebaseDatabase.getInstance().getReference("Users").child(userId);
+
+        uRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String skill=dataSnapshot.child("skills").getValue(String.class);
+                if(skill!=null) {
+                    if(!(skill.equals("")) ){
+                        String str[] = skill.split(",");
+                        List<String> slist = new ArrayList<String>();
+                        slist = Arrays.asList(str);
+                        for (String s : slist) {
+                            Chip chip = new Chip(recommendedJobs.this);
+                            chip.setText(s);
+                            chip.setCloseIconVisible(false);
+                            chip.setCheckable(false);
+                            chip.setClickable(false);
+                            chip.setChipBackgroundColorResource(R.color.white);
+                            chip.setChipStrokeColorResource(R.color.colorAccent);
+                            chip.setChipStrokeWidth(1);
+                            mchipGroup.addView(chip);
+                            mchipGroup.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        addMoreSkill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(recommendedJobs.this,selectSkillsActivity.class));
+            }
+        });
+
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override

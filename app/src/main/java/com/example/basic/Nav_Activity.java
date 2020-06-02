@@ -214,7 +214,7 @@ public class Nav_Activity extends AppCompatActivity {
                 }
                 else if(id==R.id.nav_selectSkills)
                 {
-                    startActivity(new Intent(Nav_Activity.this,Selectskills_activity.class));
+                    startActivity(new Intent(Nav_Activity.this,selectSkillsActivity.class));
 
                 }
                 drawer.closeDrawer(GravityCompat.START);
