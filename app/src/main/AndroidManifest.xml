@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".recommendedJobs"></activity>
+        <activity android:name=".whatsNew"></activity>
+        <activity android:name=".recommendedJobs" />
         <activity android:name=".Selectskills_activity" />
         <activity android:name=".selectSkills" />
         <activity android:name=".editProfile" />
@@ -34,8 +35,7 @@
         <activity
             android:name=".Register_Activity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".skillNotSelected" />
+        <activity android:name=".skillNotSelected" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -59,15 +59,15 @@
             </intent-filter>
         </service>
     </application>
-    <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
     <uses-feature android:name="android.hardware.camera.flash" />
-    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature android:name="android.hardware.camera" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

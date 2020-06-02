@@ -12,8 +12,14 @@
             android:title="@string/menu_gallery" />
         <item
             android:id="@+id/nav_selectSkills"
-            android:icon="@drawable/ic_check_black_24dp"
+            android:icon="@drawable/ic_check_circle_black_24dp"
             android:title="Select Skills" />
+
+        <item
+            android:id="@+id/nav_whatsNew"
+            android:icon="@drawable/ic_alarm_add_black_24dp"
+            android:title="Whats New" />
+
 
 
         <item android:title="Jobs">

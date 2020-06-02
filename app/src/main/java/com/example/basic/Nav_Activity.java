@@ -177,6 +177,10 @@ public class Nav_Activity extends AppCompatActivity {
                 {
                     startActivity(new Intent(Nav_Activity.this,appliedJobsActivity.class));
                 }
+                else if(id==R.id.nav_whatsNew)
+                {
+                    startActivity(new Intent(Nav_Activity.this,whatsNew.class));
+                }
                 else if(id==R.id.nav_recommended_job)
                 {
                     if(m_user!=null)
