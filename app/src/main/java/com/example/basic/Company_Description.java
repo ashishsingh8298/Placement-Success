@@ -182,10 +182,11 @@ public class Company_Description extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String appliedJob=dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("appliedJobs").child(temp).getValue(String.class);
-                if(appliedJob.equals("applied"))
-                {
-                    apply.setEnabled(false);
-                    apply.setText("Applied");
+                if(appliedJob!=null) {
+                    if (appliedJob.equals("applied")) {
+                        apply.setEnabled(false);
+                        apply.setText("Applied");
+                    }
                 }
             }
 
