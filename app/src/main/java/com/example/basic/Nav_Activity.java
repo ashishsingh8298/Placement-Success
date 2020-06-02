@@ -190,17 +190,20 @@ public class Nav_Activity extends AppCompatActivity {
                         uRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                String skill=dataSnapshot.child("skills").getValue(String.class);
-
-                                if(skill.equals("")|| skill==null)
+                                String skill = dataSnapshot.child("skills").getValue(String.class);
+                                if (skill != null) {
+                                    if (skill.equals("")) {
+                                        startActivity(new Intent(Nav_Activity.this, skillNotSelected.class));
+                                    } else {
+                                        startActivity(new Intent(Nav_Activity.this, recommendedJobs.class));
+                                    }
+                                }
+                                else
                                 {
-                                    startActivity(new Intent(Nav_Activity.this,skillNotSelected.class));
-                                }else {
-                                    startActivity(new Intent(Nav_Activity.this, recommendedJobs.class));
-                                }
+                                    startActivity(new Intent(Nav_Activity.this, skillNotSelected.class));
                                 }
 
-
+                            }
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
 

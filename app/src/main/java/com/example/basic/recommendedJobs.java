@@ -76,7 +76,6 @@ public class recommendedJobs extends AppCompatActivity implements AdapterClass.O
                 myList=new ArrayList<>();
                 myKeyList=new ArrayList<>();
                 skill=dataSnapshot.child("skills").getValue(String.class);
-                if(!(skill.equals(""))||skill!=null) {
                     String str[] = skill.split(",");
                     List<String> slist = new ArrayList<String>();
                     slist = Arrays.asList(str);
@@ -96,7 +95,7 @@ public class recommendedJobs extends AppCompatActivity implements AdapterClass.O
                     AdapterClass adapterClass = new AdapterClass(listWithoutDuplicate, recommendedJobs.this::OnNoteClick);
                     recyclerView.setAdapter(adapterClass);
                 }
-                }
+
 
 
             @Override
