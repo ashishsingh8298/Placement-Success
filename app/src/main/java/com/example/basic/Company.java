@@ -11,8 +11,9 @@ public class Company {
     private String eligibilityCriteria;
     private String applyDateFrom;
     private  String applyDateTo;
+    private String datetime;
 
-    public Company(String jobTitle, String jobDescription, String linkLogo, String requiredSkills, String jobResponsibility, String jobCtc, String eligibleBranch, String eligibilityCriteria, String applyDateFrom, String applyDateTo) {
+    public Company(String jobTitle, String jobDescription, String linkLogo, String requiredSkills, String jobResponsibility, String jobCtc, String eligibleBranch, String eligibilityCriteria, String applyDateFrom, String applyDateTo,String datetime) {
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
         this.linkLogo = linkLogo;
@@ -23,7 +24,9 @@ public class Company {
         this.eligibilityCriteria = eligibilityCriteria;
         this.applyDateFrom = applyDateFrom;
         this.applyDateTo = applyDateTo;
+        this.datetime=datetime;
     }
+    public String getDatetime(){return datetime;}
 
     public String getRequiredSkills() {
         return requiredSkills;
