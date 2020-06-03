@@ -339,23 +339,10 @@ public class Company_Description extends AppCompatActivity {
                         builder.setCancelable(false);
                         final EditText input=new EditText(Company_Description.this);
                         LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.MATCH_PARENT
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
                         );
                         input.setLayoutParams(lp);
-                        DatabaseReference t=cRef.child(edit);
-                        t.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                String oldComment=dataSnapshot.child("Comment").getValue(String.class);
-                                input.setText(oldComment);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
                         builder.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -372,6 +359,20 @@ public class Company_Description extends AppCompatActivity {
                                 dialogInterface.cancel();
                             }
                         });
+                        DatabaseReference t=cRef.child(edit);
+                        t.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String oldComment=dataSnapshot.child("Comment").getValue(String.class);
+                                input.setText(oldComment);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
                         AlertDialog alertDialog=builder.create();
                         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
                             @Override
