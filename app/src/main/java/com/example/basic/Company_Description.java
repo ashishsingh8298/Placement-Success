@@ -201,10 +201,10 @@ public class Company_Description extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Company_Description.this);
                 builder.setMessage("Do you want to apply for this job?");
-                builder.setTitle("Alert !");
-                builder.setIcon(R.drawable.ic_error_black_24dp);
+                builder.setTitle("Apply");
+                builder.setIcon(R.drawable.ic_check_circle_black_24dp);
                 builder.setCancelable(false);
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         DatabaseReference u_id=uRef.child(user_id).child("appliedJobs");
@@ -217,13 +217,20 @@ public class Company_Description extends AppCompatActivity {
 
                     }
                 });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
                     }
                 });
                 AlertDialog alertDialog = builder.create();
+                alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialogInterface) {
+                        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                    }
+                });
                 alertDialog.show();
             }
         });
@@ -290,10 +297,10 @@ public class Company_Description extends AppCompatActivity {
 
                         AlertDialog.Builder builder=new AlertDialog.Builder(Company_Description.this);
                         builder.setMessage("Do you want to delete this comment?");
-                        builder.setTitle("Alert !");
-                        builder.setIcon(R.drawable.ic_error_black_24dp);
+                        builder.setTitle("Delete");
+                        builder.setIcon(R.drawable.ic_delete_black_24dp);
                         builder.setCancelable(false);
-                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String del=firebaseRecyclerAdapter.getRef(position).getKey();
@@ -303,13 +310,20 @@ public class Company_Description extends AppCompatActivity {
                                 Toast.makeText(Company_Description.this,"Comment successfully deleted",Toast.LENGTH_LONG).show();
                             }
                         });
-                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.cancel();
                             }
                         });
                         AlertDialog alertDialog=builder.create();
+                        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                            @Override
+                            public void onShow(DialogInterface dialogInterface) {
+                                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                            }
+                        });
                         alertDialog.show();
 
                     }
@@ -325,10 +339,26 @@ public class Company_Description extends AppCompatActivity {
                         builder.setCancelable(false);
                         final EditText input=new EditText(Company_Description.this);
                         LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.MATCH_PARENT
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
                         );
                         input.setLayoutParams(lp);
+                        builder.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String newComment=input.getText().toString();
+                                cRef.child(edit).child("Comment").setValue(newComment);
+                                notifyDataSetChanged();
+                                mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+                                Toast.makeText(Company_Description.this,"Comment edited.",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
                         DatabaseReference t=cRef.child(edit);
                         t.addValueEventListener(new ValueEventListener() {
                             @Override
@@ -342,23 +372,15 @@ public class Company_Description extends AppCompatActivity {
 
                             }
                         });
-                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                String newComment=input.getText().toString();
-                                cRef.child(edit).child("Comment").setValue(newComment);
-                                notifyDataSetChanged();
-                                mRecyclerView.setAdapter(firebaseRecyclerAdapter);
-                                Toast.makeText(Company_Description.this,"Comment edited.",Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        });
+
                         AlertDialog alertDialog=builder.create();
+                        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                            @Override
+                            public void onShow(DialogInterface dialogInterface) {
+                                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                            }
+                        });
                         alertDialog.setView(input);
                         alertDialog.show();
                     }

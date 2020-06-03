@@ -36,7 +36,8 @@ public class selectSkillsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_skills2);
-
+        getSupportActionBar().setTitle(("Select Skill"));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth=FirebaseAuth.getInstance();
         mDatabase= FirebaseDatabase.getInstance();
         mRef=mDatabase.getReference("Skills");
@@ -59,8 +60,8 @@ public class selectSkillsActivity extends AppCompatActivity {
                     }
                     i++;
                 }
-                Snackbar.make(view,addSkill, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /*Snackbar.make(view,addSkill, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
                 uRef.child("skills").setValue(addSkill);
                 // startActivity(new Intent(Selectskills_activity.this,recommendedJobs.class));*/
 
