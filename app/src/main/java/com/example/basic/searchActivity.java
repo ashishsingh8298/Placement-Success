@@ -37,7 +37,8 @@ public class searchActivity extends AppCompatActivity implements AdapterClass.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-
+        getSupportActionBar().setTitle(("Search Job"));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ref= FirebaseDatabase.getInstance().getReference().child("Company");
         recyclerView=findViewById(R.id.rv);
         searchView=findViewById(R.id.searchView);

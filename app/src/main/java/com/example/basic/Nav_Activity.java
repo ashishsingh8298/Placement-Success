@@ -140,10 +140,10 @@ public class Nav_Activity extends AppCompatActivity {
 
                     AlertDialog.Builder builder=new AlertDialog.Builder(Nav_Activity.this);
                     builder.setMessage("Do you want to LogOut?");
-                    builder.setTitle("Alert !");
+                    builder.setTitle("LogOut");
                     builder.setIcon(R.drawable.ic_settings_power_black_24dp);
                     builder.setCancelable(false);
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             FirebaseAuth.getInstance().signOut();
@@ -151,13 +151,20 @@ public class Nav_Activity extends AppCompatActivity {
                             startActivity(new Intent(Nav_Activity.this, Login_Activity.class));
                         }
                     });
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.cancel();
                         }
                     });
                     AlertDialog alertDialog=builder.create();
+                    alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface dialogInterface) {
+                            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                        }
+                    });
                     alertDialog.show();
 
 
