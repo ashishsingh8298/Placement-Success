@@ -243,17 +243,29 @@ public class Company_Description extends AppCompatActivity {
                {
                    Toast.makeText(Company_Description.this,"Write your Feedback",Toast.LENGTH_LONG).show();
                }
-               else
-               {
+               else {
                    Toast.makeText(Company_Description.this, "Feedback received.", Toast.LENGTH_LONG).show();
-                   String user_id = mAuth.getCurrentUser().getUid();
-                   DatabaseReference ref=cRef.push();
-                   ref.child("userId").setValue(user_id);
-                   ref.child("Comment").setValue(comment);
-                   ref.child("Date").setValue(date);
-                   ref.child("Name").setValue(mUser.getDisplayName());
-                   feed.setText("");
-                   mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+                   uRef.addValueEventListener(new ValueEventListener() {
+                       @Override
+                       public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                           String user_id = mAuth.getCurrentUser().getUid();
+                           String name = dataSnapshot.child(user_id).child("Name").getValue(String.class);
+                           DatabaseReference ref=cRef.push();
+                           ref.child("userId").setValue(user_id);
+                           ref.child("Comment").setValue(comment);
+                           ref.child("Date").setValue(date);
+                           ref.child("Name").setValue(name);
+                           feed.setText("");
+                           mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+
+                       }
+
+                       @Override
+                       public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                       }
+                   });
+
                }
            }
 

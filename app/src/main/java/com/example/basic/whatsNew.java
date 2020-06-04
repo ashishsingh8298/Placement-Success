@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 
-public class whatsNew extends AppCompatActivity implements AdapterClass.OnNoteListener {
+public class whatsNew extends AppCompatActivity implements notificationAdapter.OnNoteListener {
     private static final String TAG="whatsNew";
     FirebaseAuth mAuth;
     FirebaseUser mUser;
@@ -43,12 +43,13 @@ public class whatsNew extends AppCompatActivity implements AdapterClass.OnNoteLi
     String userId,curr_date;
     ArrayList<String> finalkeyList=new ArrayList<>();
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_whats_new);
+
+        getSupportActionBar().setTitle(("Whats New"));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         calendar=Calendar.getInstance();
         df=new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         curr_date=df.format(calendar.getTime());
@@ -85,7 +86,7 @@ public class whatsNew extends AppCompatActivity implements AdapterClass.OnNoteLi
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    AdapterClass adapterClass=new AdapterClass(list,whatsNew.this::OnNoteClick);
+                    notificationAdapter adapterClass=new notificationAdapter(list,whatsNew.this::OnNoteClick);
 
                     recyclerView.setAdapter(adapterClass);
                     finalkeyList=keyList;

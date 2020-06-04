@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".whatsNew">
 
-    <TextView
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -15,7 +15,7 @@
         android:fontFamily="@font/bungee"
         android:text="what's new"
         android:textColor="#000"
-        android:textSize="20sp" />
+        android:textSize="20sp" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
