@@ -81,7 +81,29 @@ public class Nav_Activity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser mUser = mAuth.getCurrentUser();
-                if (mUser== null || mUser.isEmailVerified()==false) {
+                if(mUser!=null)
+                {
+                    DatabaseReference Database = FirebaseDatabase.getInstance().getReference().child("Users").child(mUser.getUid());
+                    Database.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String firstTime = dataSnapshot.child("firstTimeLogin").getValue(String.class);
+                            if(firstTime!=null)
+                            {
+                                if(firstTime.equals("true"))
+                                {
+                                    startActivity(new Intent(Nav_Activity.this,addPhoneNumber.class));
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+                else if (mUser== null || mUser.isEmailVerified()==false) {
                     Intent i=new Intent(Nav_Activity.this, Login_Activity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);

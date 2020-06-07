@@ -28,8 +28,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -61,7 +64,7 @@ public class Login_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_);
-        mDatabase= FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -79,10 +82,10 @@ public class Login_Activity extends AppCompatActivity {
         password = findViewById(R.id.Password);
         SigninBtn = findViewById(R.id.Login);
         SignupBtn = findViewById(R.id.SignUp);
-        gSignin=findViewById(R.id.Google);
-        ForgotPassword=findViewById(R.id.forgot_password);
+        gSignin = findViewById(R.id.Google);
+        ForgotPassword = findViewById(R.id.forgot_password);
 
-       mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser mFirebaseUser = mAuth.getCurrentUser();
@@ -207,8 +210,36 @@ public class Login_Activity extends AppCompatActivity {
 
                             current_user.child("Name").setValue(user.getDisplayName());
                             current_user.child("Email").setValue(user.getEmail());
-                            current_user.child("Phone Number").setValue(user.getPhoneNumber());
+                            //current_user.child("Phone Number").setValue(user.getPhoneNumber());
                             //current_user.child("profilePhoto").child("imageurl").setValue(user.getPhotoUrl()).toString();
+
+
+                            current_user.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    String firstTime=dataSnapshot.child("firstTimeLogin").getValue(String.class);
+                                    if(firstTime!=null)
+                                    {
+                                        if(firstTime.equals("false"))
+                                        {
+                                            startActivity(new Intent(Login_Activity.this,Nav_Activity.class));
+                                        }
+                                        else
+                                        {
+                                            startActivity(new Intent(Login_Activity.this,addPhoneNumber.class));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        startActivity(new Intent(Login_Activity.this,addPhoneNumber.class));
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
 
 
 

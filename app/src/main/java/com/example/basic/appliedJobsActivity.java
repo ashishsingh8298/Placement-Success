@@ -116,6 +116,6 @@ public class appliedJobsActivity extends AppCompatActivity implements AdapterCla
         Intent intent = new Intent(appliedJobsActivity.this, Company_Description.class);
         intent.putExtra("str",temp);
         startActivity(intent);
-        finish();
+        //finish();
     }
 }

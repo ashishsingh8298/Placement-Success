@@ -116,7 +116,7 @@ public class Register_Activity extends AppCompatActivity {
                                             current_user.child("Name").setValue(sname);
                                             current_user.child("Email").setValue(email);
                                             current_user.child("Phone Number").setValue(phone);
-
+                                            current_user.child("firstTimeLogin").setValue("false");
                                             name.setText("");
                                             emailid.setText("");
                                             phoneNo.setText("");
