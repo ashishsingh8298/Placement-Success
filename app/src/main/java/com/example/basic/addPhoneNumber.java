@@ -63,8 +63,8 @@ public class addPhoneNumber extends AppCompatActivity implements GoogleApiClient
                     mDatabase.child("Phone Number").setValue(phone);
                     mDatabase.child("firstTimeLogin").setValue("false");
                     Toast.makeText(addPhoneNumber.this, "Phone Number added Successfully.", Toast.LENGTH_SHORT).show();
-                    finish();
                     startActivity(new Intent(addPhoneNumber.this, Nav_Activity.class));
+                    finish();
                 }
             }
         });
