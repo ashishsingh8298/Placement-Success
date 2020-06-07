@@ -224,6 +224,10 @@ public class Nav_Activity extends AppCompatActivity {
                     startActivity(new Intent(Nav_Activity.this,selectSkillsActivity.class));
 
                 }
+                else if(id==R.id.nav_setting)
+                {
+                    startActivity(new Intent(Nav_Activity.this,SettingActivity.class));
+                }
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             }

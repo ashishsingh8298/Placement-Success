@@ -60,8 +60,8 @@ public class selectSkillsActivity extends AppCompatActivity {
                     }
                     i++;
                 }
-                /*Snackbar.make(view,addSkill, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
+                Snackbar.make(view,"Skills Added Successfully.", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 uRef.child("skills").setValue(addSkill);
                 // startActivity(new Intent(Selectskills_activity.this,recommendedJobs.class));*/
 
@@ -106,20 +106,21 @@ public class selectSkillsActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String getSkill=dataSnapshot.child("skills").getValue(String.class);
-                        String skillstr[] = getSkill.split(",");
-                        List<String> skilllist = new ArrayList<String>();
-                        skilllist = Arrays.asList(skillstr);
-                        int chipsCount=mChipGroup.getChildCount();
-                        int i=0;
-                        for (String s : slist) {
-                            for (String getcheckedskill : skilllist) {
-                                if(s.equals(getcheckedskill))
-                                {
-                                    Chip chip=(Chip)mChipGroup.getChildAt(i);
-                                    chip.setChecked(true);
+                        if(getSkill!=null) {
+                            String skillstr[] = getSkill.split(",");
+                            List<String> skilllist = new ArrayList<String>();
+                            skilllist = Arrays.asList(skillstr);
+                            int chipsCount = mChipGroup.getChildCount();
+                            int i = 0;
+                            for (String s : slist) {
+                                for (String getcheckedskill : skilllist) {
+                                    if (s.equals(getcheckedskill)) {
+                                        Chip chip = (Chip) mChipGroup.getChildAt(i);
+                                        chip.setChecked(true);
+                                    }
                                 }
+                                i++;
                             }
-                            i++;
                         }
                     }
 

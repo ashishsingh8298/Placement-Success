@@ -9,20 +9,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".selectSkillsActivity"
-            android:parentActivityName=".Nav_Activity"></activity>
-        <activity android:name=".whatsNew"
-            android:parentActivityName=".Nav_Activity"/>
-        <activity android:name=".recommendedJobs"
-            android:parentActivityName=".Nav_Activity"/>
-        <activity android:name=".Selectskills_activity"
-            android:parentActivityName=".Nav_Activity"/>
-        <activity android:name=".editProfile"
-            android:parentActivityName=".Profile_activity"/>
-        <activity android:name=".appliedJobsActivity"
-            android:parentActivityName=".Nav_Activity"/>
-        <activity android:name=".Company_Description"
-            android:parentActivityName=".Nav_Activity"/>
+        <activity android:name=".resetPassword"></activity>
+        <activity android:name=".SettingActivity" />
+        <activity
+            android:name=".selectSkillsActivity"
+            android:parentActivityName=".Nav_Activity" />
+        <activity
+            android:name=".whatsNew"
+            android:parentActivityName=".Nav_Activity" />
+        <activity
+            android:name=".recommendedJobs"
+            android:parentActivityName=".Nav_Activity" />
+        <activity
+            android:name=".Selectskills_activity"
+            android:parentActivityName=".Nav_Activity" />
+        <activity
+            android:name=".editProfile"
+            android:parentActivityName=".Profile_activity" />
+        <activity
+            android:name=".appliedJobsActivity"
+            android:parentActivityName=".Nav_Activity" />
+        <activity
+            android:name=".Company_Description"
+            android:parentActivityName=".Nav_Activity" />
         <activity
             android:name=".Nav_Activity"
             android:label="@string/title_activity_nav_"
@@ -30,10 +39,11 @@
         <activity
             android:name=".Profile_activity"
             android:label="@string/title_activity_nav_"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".Nav_Activity"/>
-        <activity android:name=".searchActivity"
-            android:parentActivityName=".Nav_Activity"/> <!-- android:theme="@style/AppTheme.NoActionBar" -->
+            android:parentActivityName=".Nav_Activity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".searchActivity"
+            android:parentActivityName=".Nav_Activity" /> <!-- android:theme="@style/AppTheme.NoActionBar" -->
         <activity
             android:name=".ForgotPaasword"
             android:label="Forgot Password"
@@ -72,11 +82,11 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
 </manifest>

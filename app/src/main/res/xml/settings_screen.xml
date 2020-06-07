@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="General">
+        <Preference
+            android:title="Change Password"
+            android:key="change_password"
+            android:summary="Click to Change your Password">
+            <intent
+                android:targetPackage="com.example.basic"
+                android:targetClass="com.example.basic.resetPassword"></intent>
+        </Preference>
+
+        <!--<SwitchPreference
+        android:title="Enable Dark Mode"
+        android:key="dark_mode"
+        android:defaultValue="true"></SwitchPreference>-->
+    </PreferenceCategory>
+
+    <!--<PreferenceCategory
+        android:key="expandable"
+        android:title="Display"
+        app:initialExpandedChildrenCount="1">
+        <SeekBarPreference
+            android:key="brightness"
+            android:summary="                "
+            android:title="Brightness Level"></SeekBarPreference>
+    </PreferenceCategory>-->
+    <PreferenceCategory
+        android:title="Additional">
+        <Preference
+            android:title="About Us"
+            android:summary="Click to Know More"
+            android:key="about_us"></Preference>
+    </PreferenceCategory>
+
+    <Preference
+        android:title="Rate Us"
+        android:summary="Click to Rate this app"
+        android:key="rate_us">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="http://play.google.com/store/apps"></intent>
+    </Preference>
+
+</PreferenceScreen>
