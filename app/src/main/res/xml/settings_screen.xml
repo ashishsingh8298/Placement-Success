@@ -31,7 +31,11 @@
         <Preference
             android:title="About Us"
             android:summary="Click to Know More"
-            android:key="about_us"></Preference>
+            android:key="about_us">
+            <intent
+                android:targetPackage="com.example.basic"
+                android:targetClass="com.example.basic.aboutUs"></intent>
+        </Preference>
     </PreferenceCategory>
 
     <Preference

@@ -138,6 +138,7 @@ public class Register_Activity extends AppCompatActivity implements GoogleApiCli
                                             current_user.child("Email").setValue(email);
                                             current_user.child("Phone Number").setValue(phone);
                                             current_user.child("firstTimeLogin").setValue("false");
+                                            current_user.child("block").setValue("false");
                                             name.setText("");
                                             emailid.setText("");
                                             phoneNo.setText("");

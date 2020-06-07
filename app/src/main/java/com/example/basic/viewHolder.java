@@ -67,7 +67,7 @@ public class viewHolder extends RecyclerView.ViewHolder {
         TextView cTitle=mview.findViewById(R.id.company_name);
         TextView cDesc=mview.findViewById(R.id.company_desc);
         ImageView logoImage=mview.findViewById(R.id.company_logo);
-        Picasso.get().load(linkLogo).fit().centerCrop().placeholder(R.drawable.error).error(R.drawable.error).into(logoImage);
+        Picasso.get().load(linkLogo).resize(0,150).centerCrop().placeholder(R.drawable.error).error(R.drawable.error).into(logoImage);
         cTitle.setText(jobTitle);
         cDesc.setText(jobDescription);
 

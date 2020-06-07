@@ -142,7 +142,7 @@ public class Company_Description extends AppCompatActivity {
                 String s_date =dataSnapshot.child("applyDateFrom").getValue(String.class);
                 String e_date =dataSnapshot.child("applyDateTo").getValue(String.class);
                 apply_link=dataSnapshot.child("link").getValue(String.class);
-                Picasso.get().load(logo).fit().centerCrop().placeholder(R.drawable.error).error(R.drawable.error).into(c_logo);
+                Picasso.get().load(logo).resize(0,200).centerCrop().placeholder(R.drawable.error).error(R.drawable.error).into(c_logo);
                     c_name.setText(name);
                     c_desc.setText(desc);
                     c_res.setText(res);

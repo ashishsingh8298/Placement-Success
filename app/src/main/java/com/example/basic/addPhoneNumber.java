@@ -43,6 +43,7 @@ public class addPhoneNumber extends AppCompatActivity implements GoogleApiClient
         if (mAuth != null) {
             mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
             mDatabase.child("firstTimeLogin").setValue("true");
+            mDatabase.child("block").setValue("false");
         }
         phnNo = findViewById(R.id.Number);
         add = findViewById(R.id.Add);
