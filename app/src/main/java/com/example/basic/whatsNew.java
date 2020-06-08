@@ -93,8 +93,13 @@ public class whatsNew extends AppCompatActivity implements notificationAdapter.O
 
 
                 }
+                if(keyList.isEmpty())
+                {
+                    startActivity(new Intent(whatsNew.this,noJobsPosted.class));
+                }
 
             }
+
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -116,6 +121,7 @@ public class whatsNew extends AppCompatActivity implements notificationAdapter.O
 
             }
         });
+
 
     }
 

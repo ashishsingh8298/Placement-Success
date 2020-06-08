@@ -9,13 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".aboutUs"
-            android:parentActivityName=".SettingActivity"></activity>
+        <activity android:name=".noJobsPosted"></activity>
+        <activity android:name=".jobsNotApplied" />
+        <activity
+            android:name=".aboutUs"
+            android:parentActivityName=".SettingActivity" />
         <activity android:name=".addPhoneNumber" />
-        <activity android:name=".resetPassword"
-            android:parentActivityName=".Profile_activity"/>
-        <activity android:name=".SettingActivity"
-            android:parentActivityName=".Nav_Activity"/>
+        <activity
+            android:name=".resetPassword"
+            android:parentActivityName=".Profile_activity" />
+        <activity
+            android:name=".SettingActivity"
+            android:parentActivityName=".Nav_Activity" />
         <activity
             android:name=".selectSkillsActivity"
             android:parentActivityName=".Nav_Activity" />
@@ -59,7 +64,9 @@
         <activity
             android:name=".Register_Activity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".skillNotSelected" />
+        <activity
+            android:name=".skillNotSelected"
+            android:parentActivityName=".Nav_Activity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -87,11 +94,11 @@
     <uses-feature android:name="android.hardware.camera.flash" />
 
     <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
 </manifest>

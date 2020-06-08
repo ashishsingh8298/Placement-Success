@@ -270,6 +270,7 @@ public class Company_Description extends AppCompatActivity {
            }
 
        });
+       swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
            @Override
            public void onRefresh() {

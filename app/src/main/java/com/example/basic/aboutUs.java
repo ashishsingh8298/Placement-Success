@@ -7,6 +7,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -23,12 +24,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.skyhope.showmoretextview.ShowMoreTextView;
 import com.squareup.picasso.Picasso;
 
 public class aboutUs extends AppCompatActivity {
-    TextView know,about_Aprajita,about_Ashish,about_Ashima,about_Atul,about_Mentor;
+    TextView know;
+    TextView about_Aprajita,about_Ashish,about_Ashima,about_Atul,about_Mentor;
     CircleImageView imageaprajita,imageashish,imageashima,imageatul,imagementor;
     Button editaprajita,editashish,editashima,editatul,editmentor;
+    ShowMoreTextView netaji;
     FirebaseUser mUser;
     FirebaseAuth mAuth;
     @Override
@@ -40,6 +44,12 @@ public class aboutUs extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         mUser= mAuth.getCurrentUser();
         know=findViewById(R.id.knowMore);
+        netaji=findViewById(R.id.netajiDesc);
+        netaji.setShowingLine(2);
+        netaji.addShowLessText("less");
+        netaji.addShowMoreText("see more");
+        netaji.setShowLessTextColor(Color.BLACK);
+        netaji.setShowMoreColor(Color.BLACK);
         editaprajita=findViewById(R.id.editAprajita);
         editashish=findViewById(R.id.editAshish);
         editashima=findViewById(R.id.editAshima);
@@ -48,9 +58,29 @@ public class aboutUs extends AppCompatActivity {
         imageaprajita=findViewById(R.id.aprajita);
         about_Aprajita=findViewById(R.id.aboutAprajita);
         about_Ashish=findViewById(R.id.aboutAshish);
+        /*about_Ashish.setShowingLine(2);
+        about_Ashish.addShowLessText("less");
+        about_Ashish.addShowMoreText("see more");
+        about_Ashish.setShowLessTextColor(Color.BLACK);
+        about_Ashish.setShowMoreColor(Color.BLACK);*/
         about_Ashima=findViewById(R.id.aboutAshima);
+        /*about_Ashima.setShowingLine(2);
+        about_Ashima.addShowLessText("less");
+        about_Ashima.addShowMoreText("see more");
+        about_Ashima.setShowLessTextColor(Color.BLACK);
+        about_Ashima.setShowMoreColor(Color.BLACK);*/
         about_Atul=findViewById(R.id.aboutAtul);
+        /*about_Atul.setShowingLine(2);
+        about_Atul.addShowLessText("less");
+        about_Atul.addShowMoreText("see more");
+        about_Atul.setShowLessTextColor(Color.BLACK);
+        about_Atul.setShowMoreColor(Color.BLACK);*/
         about_Mentor=findViewById(R.id.aboutMentor);
+        /*about_Mentor.setShowingLine(2);
+        about_Mentor.addShowLessText("less");
+        about_Mentor.addShowMoreText("see more");
+        about_Mentor.setShowLessTextColor(Color.BLACK);
+        about_Mentor.setShowMoreColor(Color.BLACK);*/
         Picasso.get().load(R.drawable.aprajita).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(imageaprajita);
         imageashish=findViewById(R.id.ashish);
         Picasso.get().load(R.drawable.ashish).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(imageashish);
@@ -75,6 +105,11 @@ public class aboutUs extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String ap=dataSnapshot.child("aprajitashailie88").child("about").getValue(String.class);
                 about_Aprajita.setText(ap);
+                /*about_Aprajita.setShowingLine(2);
+                about_Aprajita.addShowLessText("less");
+                about_Aprajita.addShowMoreText("see more");
+                about_Aprajita.setShowLessTextColor(Color.BLACK);
+                about_Aprajita.setShowMoreColor(Color.BLACK);*/
                 String as=dataSnapshot.child("ashsihs41").child("about").getValue(String.class);
                 about_Ashish.setText(as);
                 String ash=dataSnapshot.child("ashimasingh24ashi").child("about").getValue(String.class);
@@ -141,6 +176,12 @@ public class aboutUs extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String about=input.getText().toString();
                         aboutDevelopers.child("aprajitashailie88").child("about").setValue(about);
+                       about_Aprajita.setText(about);
+                       /* about_Aprajita.setShowingChar(50);
+                        about_Aprajita.addShowLessText("less");
+                        about_Aprajita.addShowMoreText("see more");
+                        about_Aprajita.setShowLessTextColor(Color.BLACK);
+                        about_Aprajita.setShowMoreColor(Color.BLACK);*/
                         Toast.makeText(aboutUs.this,"Added successfully.",Toast.LENGTH_LONG).show();
                     }
                 });

@@ -43,6 +43,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class Nav_Activity extends AppCompatActivity {
 
@@ -61,6 +62,7 @@ public class Nav_Activity extends AppCompatActivity {
     FirebaseUser m_user;
     TextView u_name,u_email;
     String Uname,uid;
+    SwipeRefreshLayout swipeRefreshLayout;
 
 
     @Override
@@ -76,6 +78,16 @@ public class Nav_Activity extends AppCompatActivity {
         mRecyclerView= findViewById(R.id.list);
         mRecyclerView.setHasFixedSize(true);
 
+        swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -88,6 +100,12 @@ public class Nav_Activity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String firstTime = dataSnapshot.child("firstTimeLogin").getValue(String.class);
+                            Boolean isBlock=dataSnapshot.child("block").getValue(Boolean.class);
+                            if(isBlock)
+                            {
+                                FirebaseAuth.getInstance().signOut();
+                                finish();
+                            }
                             if(firstTime!=null)
                             {
                                 if(firstTime.equals("true"))

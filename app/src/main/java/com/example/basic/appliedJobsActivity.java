@@ -60,15 +60,24 @@ public class appliedJobsActivity extends AppCompatActivity implements AdapterCla
         uRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
 
-                    for (DataSnapshot ds:dataSnapshot.getChildren()){
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         userKeyList.add(ds.getKey());
                     }
-
                 }
+                    else
+                    {
+                        startActivity(new Intent(appliedJobsActivity.this,jobsNotApplied.class));
+                        finish();
+                    }
 
 
+
+        /*if(userKeyList.isEmpty())
+        {
+
+        }*/
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

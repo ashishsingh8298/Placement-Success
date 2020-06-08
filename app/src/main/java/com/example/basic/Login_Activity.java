@@ -57,8 +57,6 @@ public class Login_Activity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private static final String TAG = "GoogleActivity";
 
-
-
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,9 +139,6 @@ public class Login_Activity extends AppCompatActivity {
                startActivity(new Intent(Login_Activity.this,ForgotPaasword.class));
             }
         });
-
-
-
 
         //calling the signin facility if google button is pressed
         gSignin.setOnClickListener(new View.OnClickListener() {

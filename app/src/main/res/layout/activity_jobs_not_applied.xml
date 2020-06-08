@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".jobsNotApplied">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -11,15 +12,15 @@
         android:background="#fff"
         android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:srcCompat="@drawable/ic_sentiment_dissatisfied_black_24dp" />
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/ic_sentiment_dissatisfied_black_24dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="No Company Recommended"
+            android:text="No Jobs Applied"
             android:textStyle="bold"
             android:textSize="16dp"></TextView>
 
@@ -27,17 +28,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Company will be recommended once you select your skills."></TextView>
+            android:text="Go and Start applying for Jobs."></TextView>
 
         <Button
-            android:id="@+id/select_skill"
+            android:id="@+id/whats_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_margin="20dp"
             android:background="#000"
             android:layout_gravity="bottom"
-            android:text="Click here to select your skill"
+            android:text="Click here to view New Jobs Posted"
             android:textColor="#fff"
             />
 

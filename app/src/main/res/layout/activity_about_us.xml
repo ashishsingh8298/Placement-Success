@@ -47,7 +47,8 @@
                 android:textStyle="bold"
                 />
 
-            <TextView
+            <com.skyhope.showmoretextview.ShowMoreTextView
+                android:id="@+id/netajiDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
@@ -129,11 +130,9 @@
                             android:textColor="#000"
                             />
 
-
                         <TextView
                             android:id="@+id/aboutAprajita"
                             android:layout_width="wrap_content"
-                            android:text="I am student of Netaji Subhash Engineering College of 2020 Batch.This app is designed mainly to help students in their placement related activities."
                             android:layout_height="wrap_content"
                             android:paddingLeft="15dp"
                             android:paddingBottom="5dp"
@@ -207,11 +206,9 @@
                     android:textColor="#000"
                     />
 
-
                 <TextView
                     android:id="@+id/aboutAshish"
                     android:layout_width="wrap_content"
-                    android:text="I am student of Netaji Subhash Engineering College of 2020 Batch.This app is designed mainly to help students in their placement related activities."
                     android:layout_height="wrap_content"
                     android:paddingLeft="15dp"
                     android:paddingBottom="5dp"
@@ -288,7 +285,6 @@
                         <TextView
                             android:id="@+id/aboutAshima"
                             android:layout_width="wrap_content"
-                            android:text="I am student of Netaji Subhash Engineering College of 2020 Batch.This app is designed mainly to help students in their placement related activities."
                             android:layout_height="wrap_content"
                             android:paddingLeft="15dp"
                             android:paddingBottom="5dp"
@@ -366,7 +362,6 @@
                         <TextView
                             android:id="@+id/aboutAtul"
                             android:layout_width="wrap_content"
-                            android:text="I am student of Netaji Subhash Engineering College of 2020 Batch.This app is designed mainly to help students in their placement related activities."
                             android:layout_height="wrap_content"
                             android:paddingLeft="15dp"
                             android:paddingBottom="5dp"
@@ -456,7 +451,6 @@
                         <TextView
                             android:id="@+id/aboutMentor"
                             android:layout_width="wrap_content"
-                            android:text="I am student of Netaji Subhash Engineering College of 2020 Batch.This app is designed mainly to help students in their placement related activities."
                             android:layout_height="wrap_content"
                             android:paddingLeft="15dp"
                             android:paddingBottom="5dp"
