@@ -14,8 +14,8 @@
     <string name="title_activity_nav_">Nav_Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Placement Success</string>
-    <string name="nav_header_subtitle">placementsuccess73@gmail.com</string>
+    <string name="nav_header_title">Loading Name...</string>
+    <string name="nav_header_subtitle">Loading Email...</string>
     <string name="nav_header_desc">Navigation header</string>
 
     <string name="menu_home">Feed</string>

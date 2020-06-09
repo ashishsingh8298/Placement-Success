@@ -69,7 +69,7 @@ public class Nav_Activity extends AppCompatActivity {
     TextView u_name,u_email;
     String Uname,uid;
     SwipeRefreshLayout swipeRefreshLayout;
-    RelativeLayout loadingPanel;
+    RelativeLayout loadingPanel,loadingPanelNav;
 
 
     @Override
@@ -77,6 +77,7 @@ public class Nav_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_);
         loadingPanel=findViewById(R.id.loadingPanel);
+
         checkConnection();
         mAuth = FirebaseAuth.getInstance();
         mLinerLayoutManager=new LinearLayoutManager(this);
@@ -85,6 +86,7 @@ public class Nav_Activity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Company");
         mRecyclerView= findViewById(R.id.list);
         mRecyclerView.setHasFixedSize(true);
+
 
         swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
@@ -188,6 +190,7 @@ public class Nav_Activity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
+
                 int id = item.getItemId();
                 if (id == R.id.nav_logout) {
                     checkConnection();
@@ -365,11 +368,9 @@ public class Nav_Activity extends AppCompatActivity {
 
     public void updateNavHeader()
     {
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView=navigationView.getHeaderView(0);
-
-
-
 
         u_image=headerView.findViewById(R.id.user_image);
         u_name=headerView.findViewById(R.id.NameOfUser);
@@ -394,6 +395,7 @@ public class Nav_Activity extends AppCompatActivity {
 
                     u_name.setText(name);
                     u_email.setText(email);
+//                    loadingPanelNav.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
