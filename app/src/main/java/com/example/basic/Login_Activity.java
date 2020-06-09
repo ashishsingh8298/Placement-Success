@@ -217,15 +217,18 @@ public class Login_Activity extends AppCompatActivity {
                                     {
                                         if(firstTime.equals("false"))
                                         {
+                                            mDialog.dismiss();
                                             startActivity(new Intent(Login_Activity.this,Nav_Activity.class));
                                         }
                                         else
                                         {
+                                            mDialog.dismiss();
                                             startActivity(new Intent(Login_Activity.this,addPhoneNumber.class));
                                         }
                                     }
                                     else
                                     {
+                                        mDialog.dismiss();
                                         startActivity(new Intent(Login_Activity.this,addPhoneNumber.class));
                                     }
                                 }

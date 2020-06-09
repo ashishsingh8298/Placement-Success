@@ -101,11 +101,6 @@ public class Nav_Activity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String firstTime = dataSnapshot.child("firstTimeLogin").getValue(String.class);
                             Boolean isBlock=dataSnapshot.child("block").getValue(Boolean.class);
-                            if(isBlock)
-                            {
-                                FirebaseAuth.getInstance().signOut();
-                                finish();
-                            }
                             if(firstTime!=null)
                             {
                                 if(firstTime.equals("true"))
@@ -113,6 +108,15 @@ public class Nav_Activity extends AppCompatActivity {
                                     startActivity(new Intent(Nav_Activity.this,addPhoneNumber.class));
                                 }
                             }
+                            else{
+                                startActivity(new Intent(Nav_Activity.this,addPhoneNumber.class));
+                            }
+                            if(isBlock)
+                            {
+                                FirebaseAuth.getInstance().signOut();
+                                finish();
+                            }
+
                         }
 
                         @Override
