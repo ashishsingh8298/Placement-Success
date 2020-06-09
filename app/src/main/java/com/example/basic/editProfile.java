@@ -5,8 +5,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +43,7 @@ public class editProfile extends AppCompatActivity implements GoogleApiClient.Co
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        checkConnection();
         mAuth= FirebaseAuth.getInstance();
         mUser=mAuth.getCurrentUser();
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Users");
@@ -171,4 +175,13 @@ public void onConnectionSuspended(int i) {
 public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(editProfile.this, "Connection Failed!", Toast.LENGTH_LONG).show();
         }
+    public void checkConnection()
+    {
+        ConnectivityManager manager=(ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork=manager.getActiveNetworkInfo();
+        if(null==activeNetwork)
+        {
+            startActivity(new Intent(editProfile.this,noInternet.class));
+        }
+    }
 }

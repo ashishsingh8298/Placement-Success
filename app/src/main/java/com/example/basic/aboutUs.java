@@ -5,9 +5,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -39,6 +42,7 @@ public class aboutUs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
+        checkConnection();
         getSupportActionBar().setTitle("About Us");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth=FirebaseAuth.getInstance();
@@ -433,5 +437,14 @@ public class aboutUs extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+    }
+    public void checkConnection()
+    {
+        ConnectivityManager manager=(ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork=manager.getActiveNetworkInfo();
+        if(null==activeNetwork)
+        {
+            startActivity(new Intent(aboutUs.this,noInternet.class));
+        }
     }
 }

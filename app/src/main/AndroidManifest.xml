@@ -9,68 +9,93 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".noJobsPosted"></activity>
-        <activity android:name=".jobsNotApplied" />
+        <activity android:name=".noInternet"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="nosensor"></activity>
+        <activity android:name=".noJobsPosted"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".jobsNotApplied"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".aboutUs"
-            android:parentActivityName=".SettingActivity" />
-        <activity android:name=".addPhoneNumber" />
+            android:parentActivityName=".SettingActivity"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".addPhoneNumber"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".resetPassword"
-            android:parentActivityName=".Profile_activity" />
+            android:parentActivityName=".Profile_activity"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".SettingActivity"
-            android:parentActivityName=".Nav_Activity" />
+            android:parentActivityName=".Nav_Activity"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".selectSkillsActivity"
-            android:parentActivityName=".Nav_Activity" />
+            android:parentActivityName=".Nav_Activity"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".whatsNew"
-            android:parentActivityName=".Nav_Activity" />
+            android:parentActivityName=".Nav_Activity"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".recommendedJobs"
-            android:parentActivityName=".Nav_Activity" />
+            android:parentActivityName=".Nav_Activity"
+            android:screenOrientation="nosensor"
+            />
         <activity
             android:name=".Selectskills_activity"
-            android:parentActivityName=".Nav_Activity" />
+            android:parentActivityName=".Nav_Activity"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".editProfile"
-            android:parentActivityName=".Profile_activity" />
+            android:parentActivityName=".Profile_activity"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".appliedJobsActivity"
-            android:parentActivityName=".Nav_Activity" />
+            android:parentActivityName=".Nav_Activity"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".Company_Description"
-            android:parentActivityName=".Nav_Activity" />
+            android:parentActivityName=".Nav_Activity"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".Nav_Activity"
             android:label="@string/title_activity_nav_"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".Profile_activity"
             android:label="@string/title_activity_nav_"
             android:parentActivityName=".Nav_Activity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".searchActivity"
-            android:parentActivityName=".Nav_Activity" /> <!-- android:theme="@style/AppTheme.NoActionBar" -->
+            android:parentActivityName=".Nav_Activity"
+            android:screenOrientation="nosensor"/> <!-- android:theme="@style/AppTheme.NoActionBar" -->
         <activity
             android:name=".ForgotPaasword"
             android:label="Forgot Password"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".Login_Activity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".Register_Activity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".skillNotSelected"
-            android:parentActivityName=".Nav_Activity" />
+            android:parentActivityName=".Nav_Activity"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -98,6 +123,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 

@@ -2,9 +2,12 @@ package com.example.basic;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -73,7 +76,7 @@ public class Company_Description extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company__description);
-
+        checkConnection();
         /*if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel channel=new NotificationChannel("MyNotifications","MyNotifications", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager=getSystemService(NotificationManager.class);
@@ -427,5 +430,14 @@ public class Company_Description extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLinerLayoutManager);
         firebaseRecyclerAdapter.startListening();
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+    }
+    public void checkConnection()
+    {
+        ConnectivityManager manager=(ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork=manager.getActiveNetworkInfo();
+        if(null==activeNetwork)
+        {
+            startActivity(new Intent(Company_Description.this,noInternet.class));
+        }
     }
 }

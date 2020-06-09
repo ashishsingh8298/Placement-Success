@@ -7,7 +7,10 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,7 +50,7 @@ public class appliedJobsActivity extends AppCompatActivity implements AdapterCla
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applied_jobs);
-
+        checkConnection();
         mAuth = FirebaseAuth.getInstance();
         ref= FirebaseDatabase.getInstance().getReference().child("Company");
         recyclerView=findViewById(R.id.rv);
@@ -126,5 +129,14 @@ public class appliedJobsActivity extends AppCompatActivity implements AdapterCla
         intent.putExtra("str",temp);
         startActivity(intent);
         //finish();
+    }
+    public void checkConnection()
+    {
+        ConnectivityManager manager=(ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork=manager.getActiveNetworkInfo();
+        if(null==activeNetwork)
+        {
+            startActivity(new Intent(appliedJobsActivity.this,noInternet.class));
+        }
     }
 }

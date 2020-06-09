@@ -2,8 +2,11 @@ package com.example.basic;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -69,7 +73,7 @@ public class Nav_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_);
-
+        checkConnection();
         mAuth = FirebaseAuth.getInstance();
         mLinerLayoutManager=new LinearLayoutManager(this);
         mLinerLayoutManager.setReverseLayout(true);
@@ -161,6 +165,7 @@ public class Nav_Activity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                checkConnection();
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
                 startActivity(new Intent(Nav_Activity.this, searchActivity.class));
@@ -181,7 +186,7 @@ public class Nav_Activity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.nav_logout) {
-
+                    checkConnection();
                     AlertDialog.Builder builder=new AlertDialog.Builder(Nav_Activity.this);
                     builder.setMessage("Do you want to LogOut?");
                     builder.setTitle("LogOut");
@@ -214,26 +219,32 @@ public class Nav_Activity extends AppCompatActivity {
 
                 }
                 else if (id == R.id.nav_home) {
+                    checkConnection();
                     drawer.closeDrawer(GravityCompat.START);
                 }
                 else if (id==R.id.nav_profile)
                 {
+                    checkConnection();
                     startActivity(new Intent(Nav_Activity.this,Profile_activity.class));
                 }
                 else if(id==R.id.nav_search_job)
                 {
+                    checkConnection();
                     startActivity(new Intent(Nav_Activity.this,searchActivity.class));
                 }
                 else if(id==R.id.nav_applied_job)
                 {
+                    checkConnection();
                     startActivity(new Intent(Nav_Activity.this,appliedJobsActivity.class));
                 }
                 else if(id==R.id.nav_whatsNew)
                 {
+                    checkConnection();
                     startActivity(new Intent(Nav_Activity.this,whatsNew.class));
                 }
                 else if(id==R.id.nav_recommended_job)
                 {
+                    checkConnection();
                     if(m_user!=null)
                     {
                         m_user=mAuth.getCurrentUser();
@@ -265,11 +276,13 @@ public class Nav_Activity extends AppCompatActivity {
                 }
                 else if(id==R.id.nav_selectSkills)
                 {
+                    checkConnection();
                     startActivity(new Intent(Nav_Activity.this,selectSkillsActivity.class));
 
                 }
                 else if(id==R.id.nav_setting)
                 {
+                    checkConnection();
                     startActivity(new Intent(Nav_Activity.this,SettingActivity.class));
                 }
                 drawer.closeDrawer(GravityCompat.START);
@@ -409,6 +422,15 @@ public class Nav_Activity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthStateListener);
+    }
+    public void checkConnection()
+    {
+        ConnectivityManager manager=(ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork=manager.getActiveNetworkInfo();
+        if(null==activeNetwork)
+        {
+            startActivity(new Intent(Nav_Activity.this,noInternet.class));
+        }
     }
 
 }

@@ -1,8 +1,12 @@
 package com.example.basic;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +28,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +53,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Login_Activity extends AppCompatActivity {
     TextView SignupBtn;
+    LinearLayout mlayout;
     EditText emailId,password;
     Button SigninBtn,ForgotPassword;
     FirebaseAuth mAuth;
@@ -63,7 +70,7 @@ public class Login_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_);
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-
+        mlayout=findViewById(R.id.parent_layout);
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -99,6 +106,7 @@ public class Login_Activity extends AppCompatActivity {
         SigninBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkConnection();
                 String email = emailId.getText().toString();
                 String pass = password.getText().toString();
                 if (email.isEmpty()) {
@@ -144,6 +152,7 @@ public class Login_Activity extends AppCompatActivity {
         gSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                checkConnection();
                 signIn();
             }
         });
@@ -255,6 +264,16 @@ public class Login_Activity extends AppCompatActivity {
 
         super.onStart();
         mAuth.addAuthStateListener(mAuthStateListener);
+    }
+    public void checkConnection()
+    {
+        ConnectivityManager manager=(ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork=manager.getActiveNetworkInfo();
+        if(null==activeNetwork)
+        {
+            Snackbar.make(mlayout,"Could not connect to internet", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).setBackgroundTint(Color.RED).show();
+        }
     }
 
 }

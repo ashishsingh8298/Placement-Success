@@ -6,14 +6,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -24,6 +29,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +46,7 @@ public class Register_Activity extends AppCompatActivity implements GoogleApiCli
     TextInputEditText name,emailid,password,phoneNo;
     private final static int RESOLVE_HINT = 1011;
     String mobNumber;
+    LinearLayout mlayout;
     Button Signup,SigninPage;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
@@ -50,7 +57,7 @@ public class Register_Activity extends AppCompatActivity implements GoogleApiCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_);
-
+        mlayout=findViewById(R.id.parent_layout);
         mDialog=new ProgressDialog(this);
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Users");
 
@@ -66,6 +73,7 @@ public class Register_Activity extends AppCompatActivity implements GoogleApiCli
         Signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                checkConnection();
                 startRegister();
             }
         });
@@ -214,5 +222,16 @@ public class Register_Activity extends AppCompatActivity implements GoogleApiCli
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(Register_Activity.this, "Connection Failed!", Toast.LENGTH_LONG).show();
     }
+    public void checkConnection()
+    {
+        ConnectivityManager manager=(ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork=manager.getActiveNetworkInfo();
+        if(null==activeNetwork)
+        {
+            Snackbar.make(mlayout,"Could not connect to internet", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).setBackgroundTint(Color.RED).show();
+        }
+    }
+
 
 }
