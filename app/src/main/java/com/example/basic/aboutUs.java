@@ -87,7 +87,7 @@ public class aboutUs extends AppCompatActivity {
         imageashima=findViewById(R.id.ashima);
         Picasso.get().load(R.drawable.ashima).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(imageashima);
         imageatul=findViewById(R.id.atul);
-        Picasso.get().load(R.drawable.ic_profileimage).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(imageatul);
+        Picasso.get().load(R.drawable.atul).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(imageatul);
         imagementor=findViewById(R.id.mentor);
         Picasso.get().load(R.drawable.sumanta).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(imagementor);
         know.setOnClickListener(new View.OnClickListener() {
