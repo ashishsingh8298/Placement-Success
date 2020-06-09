@@ -207,8 +207,6 @@ public class Login_Activity extends AppCompatActivity {
                             current_user.child("Email").setValue(user.getEmail());
                             //current_user.child("Phone Number").setValue(user.getPhoneNumber());
                             //current_user.child("profilePhoto").child("imageurl").setValue(user.getPhotoUrl()).toString();
-
-
                             current_user.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -238,15 +236,14 @@ public class Login_Activity extends AppCompatActivity {
 
                                 }
                             });
-
-
-
-                    startActivity(new Intent(Login_Activity.this,Nav_Activity.class));
+                            mDialog.dismiss();
+                            startActivity(new Intent(Login_Activity.this,Nav_Activity.class));
                         } else {
+                            mDialog.dismiss();
                             // If sign in fails, display a message to the user.
                             Toast.makeText(Login_Activity.this,"Authentication Failed", Toast.LENGTH_SHORT).show();
                         }
-                        mDialog.dismiss();
+
                     }
                 });
     }
