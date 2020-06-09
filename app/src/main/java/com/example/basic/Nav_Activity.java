@@ -15,7 +15,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,12 +69,14 @@ public class Nav_Activity extends AppCompatActivity {
     TextView u_name,u_email;
     String Uname,uid;
     SwipeRefreshLayout swipeRefreshLayout;
+    RelativeLayout loadingPanel;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_);
+        loadingPanel=findViewById(R.id.loadingPanel);
         checkConnection();
         mAuth = FirebaseAuth.getInstance();
         mLinerLayoutManager=new LinearLayoutManager(this);
@@ -318,6 +322,8 @@ public class Nav_Activity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Company model) {
                 holder.setDetails(getApplicationContext(),model.getJobTitle(),model.getJobDescription(),model.getLinkLogo());
+                loadingPanel.setVisibility(View.INVISIBLE);
+
             }
             @NonNull
             @Override
@@ -422,6 +428,7 @@ public class Nav_Activity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthStateListener);
+        loadingPanel.setVisibility(View.VISIBLE);
     }
     public void checkConnection()
     {
