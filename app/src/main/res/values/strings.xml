@@ -24,5 +24,14 @@
     <string name="menu_logout">LogOut</string>
     <string name="title_activity_search">searchActivity</string>
     <string name="nsec_desc">Netaji Subhash Engineering College (NSEC) has been set up, keeping in mind the ideals of Netaji Subhash Chandra Bose, whose contribution to the Indian Freedom Movement remains invaluable forever. Netaji had dreamt of vibrant, strong and powerful India, an India which would be independent and self reliant, not only politically, but also in the spheres of Education and Technology. He strongly believed that true independence can only stem from strong base in education and technology. His vision is our beacon and to give a concrete shape to his vision, we have set up Netaji Subhash Engineering College. We believe in his ideals that intelligent minds are the greatest resources in any walk of life. Our vision is to infuse young, intelligent minds with cutting edge technical education and help them to become mature professionals poised and ready to accept technical and managerial challenges in the global scenario.</string>
+    <string-array name="comment_type">
+        <item>General</item>
+        <item>Question/Answer</item>
+    </string-array>
 
+    <string-array name="comment_type_show">
+        <item>All</item>
+        <item>General</item>
+        <item>Question/Answer</item>
+    </string-array>
 </resources>
