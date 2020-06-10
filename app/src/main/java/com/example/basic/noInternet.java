@@ -25,6 +25,7 @@ public class noInternet extends AppCompatActivity {
                 if(null!=activeNetwork)
                 {
                     startActivity(new Intent(noInternet.this,Nav_Activity.class));
+                    finish();
                 }
                 else
                 {

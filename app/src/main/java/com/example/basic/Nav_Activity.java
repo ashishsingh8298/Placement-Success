@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -38,6 +39,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -324,7 +330,19 @@ public class Nav_Activity extends AppCompatActivity {
         firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Company, viewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Company model) {
-                holder.setDetails(getApplicationContext(),model.getJobTitle(),model.getJobDescription(),model.getLinkLogo());
+                String dateStr=model.getDatetime();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
+                Date date = null;
+                try {
+                    date = dateFormat.parse(dateStr);
+                    String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime(), Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
+                    holder.setDetails(getApplicationContext(),model.getJobTitle(),model.getJobDescription(),model.getLinkLogo(),"Posted : "+niceDateStr);
+                }
+                catch (ParseException e)
+                {
+                    e.printStackTrace();
+                }
+
                 loadingPanel.setVisibility(View.INVISIBLE);
 
             }
@@ -439,6 +457,7 @@ public class Nav_Activity extends AppCompatActivity {
         if(null==activeNetwork)
         {
             startActivity(new Intent(Nav_Activity.this,noInternet.class));
+            finish();
         }
     }
 

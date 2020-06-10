@@ -106,9 +106,9 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
         ArrayAdapter adapterShow=new ArrayAdapter(this,android.R.layout.simple_spinner_item,companyTypeShow);
         adapterShow.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         show_spinner.setAdapter(adapterShow);
-        String item=choose_spinner.getSelectedItem().toString();
-        //show_spinner.setOnItemSelectedListener(this);
-        Toast.makeText(Company_Description.this,item,Toast.LENGTH_SHORT).show();
+        String item=show_spinner.getSelectedItem().toString();
+        //Toast.makeText(Company_Description.this,item,Toast.LENGTH_SHORT).show();
+
         Intent intent=getIntent();
         String temp=intent.getStringExtra("str");
         mAuth=FirebaseAuth.getInstance();
@@ -124,7 +124,7 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
         cRef=FirebaseDatabase.getInstance().getReference("Company").child(temp).child("Comments");
         genRef=FirebaseDatabase.getInstance().getReference("Company").child(temp).child("Comments").child("General");
         qaRef=FirebaseDatabase.getInstance().getReference("Company").child(temp).child("Comments").child("QA");
-        qaRef=FirebaseDatabase.getInstance().getReference("Company").child(temp).child("Comments").child("All");
+        allRef=FirebaseDatabase.getInstance().getReference("Company").child(temp).child("Comments").child("All");
         uRef=mDatabase.getReference("Users");
         mLinerLayoutManager=new LinearLayoutManager(this);
         mLinerLayoutManager.setReverseLayout(true);
@@ -147,7 +147,18 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
         start_date=findViewById(R.id.Company_start_content);
         end_date=findViewById(R.id.Company_end_content);
 
-        //
+        //showAllData();
+        /*if(item.equals("General"))
+        {
+            showGeneralData();
+        }
+        else if(item.equals("Question/Answer"))
+        {
+            showQaData();
+        }
+        else
+            showAllData();*/
+        show_spinner.setOnItemSelectedListener(this);
 
         apply=findViewById(R.id.apply);
 
@@ -281,6 +292,10 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                                ref.child("Comment").setValue(comment);
                                ref.child("Date").setValue(date);
                                ref.child("Name").setValue(name);
+                               allRef.child(ref.getKey()).child("userId").setValue(user_id);
+                               allRef.child(ref.getKey()).child("Comment").setValue(comment);
+                               allRef.child(ref.getKey()).child("Date").setValue(date);
+                               allRef.child(ref.getKey()).child("Name").setValue(name);
                            }
                            else
                            {
@@ -289,12 +304,12 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                                ref.child("Comment").setValue(comment);
                                ref.child("Date").setValue(date);
                                ref.child("Name").setValue(name);
+                               allRef.child(ref.getKey()).child("userId").setValue(user_id);
+                               allRef.child(ref.getKey()).child("Comment").setValue(comment);
+                               allRef.child(ref.getKey()).child("Date").setValue(date);
+                               allRef.child(ref.getKey()).child("Name").setValue(name);
                            }
-                           DatabaseReference ref = cRef.child("All").push();
-                           ref.child("userId").setValue(user_id);
-                           ref.child("Comment").setValue(comment);
-                           ref.child("Date").setValue(date);
-                           ref.child("Name").setValue(name);
+
                            feed.setText("");
                            //mRecyclerView.setAdapter(firebaseRecyclerAdapter);
 
@@ -357,7 +372,8 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String del=firebaseRecyclerAdapter.getRef(position).getKey();
-                                cRef.child(del).removeValue();
+                                genRef.child(del).removeValue();
+                                allRef.child(del).removeValue();
                                 notifyItemRemoved(position);
                                 mRecyclerView.setAdapter(firebaseRecyclerAdapter);
                                 Toast.makeText(Company_Description.this,"Comment successfully deleted",Toast.LENGTH_LONG).show();
@@ -400,7 +416,8 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String newComment=input.getText().toString();
-                                cRef.child(edit).child("Comment").setValue(newComment);
+                                genRef.child(edit).child("Comment").setValue(newComment);
+                                allRef.child(edit).child("Comment").setValue(newComment);
                                 notifyDataSetChanged();
                                 mRecyclerView.setAdapter(firebaseRecyclerAdapter);
                                 Toast.makeText(Company_Description.this,"Comment edited.",Toast.LENGTH_LONG).show();
@@ -412,7 +429,7 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                                 dialogInterface.cancel();
                             }
                         });
-                        DatabaseReference t=cRef.child(edit);
+                        DatabaseReference t=genRef.child(edit);
                         t.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -453,8 +470,9 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                     }
                 String dateStr = model.getDate();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
+                Date date = null;
                 try {
-                    Date date = dateFormat.parse(dateStr);
+                    date = dateFormat.parse(dateStr);
                     String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime() , Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
                     holder.setComments(getApplicationContext(),model.getName(),model.getComment(),niceDateStr);
                 } catch (ParseException e) {
@@ -507,7 +525,8 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String del=firebaseRecyclerAdapter.getRef(position).getKey();
-                                cRef.child(del).removeValue();
+                                qaRef.child(del).removeValue();
+                                allRef.child(del).removeValue();
                                 notifyItemRemoved(position);
                                 mRecyclerView.setAdapter(firebaseRecyclerAdapter);
                                 Toast.makeText(Company_Description.this,"Comment successfully deleted",Toast.LENGTH_LONG).show();
@@ -550,7 +569,8 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String newComment=input.getText().toString();
-                                cRef.child(edit).child("Comment").setValue(newComment);
+                                qaRef.child(edit).child("Comment").setValue(newComment);
+                                allRef.child(edit).child("Comment").setValue(newComment);
                                 notifyDataSetChanged();
                                 mRecyclerView.setAdapter(firebaseRecyclerAdapter);
                                 Toast.makeText(Company_Description.this,"Comment edited.",Toast.LENGTH_LONG).show();
@@ -562,7 +582,7 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                                 dialogInterface.cancel();
                             }
                         });
-                        DatabaseReference t=cRef.child(edit);
+                        DatabaseReference t=qaRef.child(edit);
                         t.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -603,8 +623,9 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                 }
                 String dateStr = model.getDate();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
+                Date date = null;
                 try {
-                    Date date = dateFormat.parse(dateStr);
+                    date = dateFormat.parse(dateStr);
                     String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime() , Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
                     holder.setComments(getApplicationContext(),model.getName(),model.getComment(),niceDateStr);
                 } catch (ParseException e) {
@@ -655,7 +676,11 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String del=firebaseRecyclerAdapter.getRef(position).getKey();
-                                cRef.child(del).removeValue();
+                                allRef.child(del).removeValue();
+                                if(genRef.child(del)!=null)
+                                    genRef.child(del).removeValue();
+                                else
+                                    qaRef.child(del).removeValue();
                                 notifyItemRemoved(position);
                                 mRecyclerView.setAdapter(firebaseRecyclerAdapter);
                                 Toast.makeText(Company_Description.this,"Comment successfully deleted",Toast.LENGTH_LONG).show();
@@ -698,7 +723,11 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String newComment=input.getText().toString();
-                                cRef.child(edit).child("Comment").setValue(newComment);
+                                allRef.child(edit).child("Comment").setValue(newComment);
+                                if(genRef.child(edit)!=null)
+                                    genRef.child(edit).child("Comment").setValue(newComment);
+                                else
+                                    qaRef.child(edit).child("Comment").setValue(newComment);
                                 notifyDataSetChanged();
                                 mRecyclerView.setAdapter(firebaseRecyclerAdapter);
                                 Toast.makeText(Company_Description.this,"Comment edited.",Toast.LENGTH_LONG).show();
@@ -710,7 +739,7 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                                 dialogInterface.cancel();
                             }
                         });
-                        DatabaseReference t=cRef.child(edit);
+                        DatabaseReference t=allRef.child(edit);
                         t.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -773,6 +802,7 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
         if(null==activeNetwork)
         {
             startActivity(new Intent(Company_Description.this,noInternet.class));
+            finish();
         }
     }
 
