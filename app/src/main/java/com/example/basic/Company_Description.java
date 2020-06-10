@@ -67,10 +67,12 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
     String temp,user_id,date,u_name,u_id,user_name,apply_link;
     Calendar calendar;
     SimpleDateFormat df;
-    LinearLayoutManager mLinerLayoutManager;
-    private RecyclerView mRecyclerView;
+    LinearLayoutManager mLinerLayoutManager,qaLayoutManager;
+    private RecyclerView mRecyclerView,qaRecyclerView;
     FirebaseRecyclerAdapter<Comment,viewHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<Comment> options;
+    FirebaseRecyclerAdapter<Comment,viewHolder> qafirebaseRecyclerAdapter;
+    FirebaseRecyclerOptions<Comment> qaoptions;
     Comment c;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -129,7 +131,11 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
         mLinerLayoutManager=new LinearLayoutManager(this);
         mLinerLayoutManager.setReverseLayout(true);
         mLinerLayoutManager.setStackFromEnd(true);
-        mRecyclerView= findViewById(R.id.list);
+        mRecyclerView= findViewById(R.id.listGeneral);
+        qaLayoutManager=new LinearLayoutManager(this);
+        qaLayoutManager.setReverseLayout(true);
+        qaLayoutManager.setStackFromEnd(true);
+        qaRecyclerView= findViewById(R.id.listQa);
         //mRecyclerView.setHasFixedSize(true);
        swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout);
 
@@ -148,6 +154,8 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
         end_date=findViewById(R.id.Company_end_content);
 
         //showAllData();
+        showGeneralData();
+        showQaData();
         /*if(item.equals("General"))
         {
             showGeneralData();
@@ -292,10 +300,10 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                                ref.child("Comment").setValue(comment);
                                ref.child("Date").setValue(date);
                                ref.child("Name").setValue(name);
-                               allRef.child(ref.getKey()).child("userId").setValue(user_id);
+                               /*allRef.child(ref.getKey()).child("userId").setValue(user_id);
                                allRef.child(ref.getKey()).child("Comment").setValue(comment);
                                allRef.child(ref.getKey()).child("Date").setValue(date);
-                               allRef.child(ref.getKey()).child("Name").setValue(name);
+                               allRef.child(ref.getKey()).child("Name").setValue(name);*/
                            }
                            else
                            {
@@ -304,10 +312,10 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                                ref.child("Comment").setValue(comment);
                                ref.child("Date").setValue(date);
                                ref.child("Name").setValue(name);
-                               allRef.child(ref.getKey()).child("userId").setValue(user_id);
+                               /*allRef.child(ref.getKey()).child("userId").setValue(user_id);
                                allRef.child(ref.getKey()).child("Comment").setValue(comment);
                                allRef.child(ref.getKey()).child("Date").setValue(date);
-                               allRef.child(ref.getKey()).child("Name").setValue(name);
+                               allRef.child(ref.getKey()).child("Name").setValue(name);*/
                            }
 
                            feed.setText("");
@@ -336,6 +344,316 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
 
     }
     private  void  showGeneralData()
+    {
+        //mRecyclerView.setVisibility(View.VISIBLE);
+
+        options=new FirebaseRecyclerOptions.Builder<Comment>().setQuery(genRef,Comment.class).build();
+
+        firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Comment, viewHolder>(options) {
+
+            @NonNull
+            @Override
+            public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+                View itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_row,parent,false);
+
+                viewHolder vHolder=new viewHolder(itemView);
+                linearLayoutButton=(LinearLayout)findViewById(R.id.buttonPanelForUser);
+                vHolder.setOnClickListener(new viewHolder.ClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+
+                    @Override
+                    public void onDeleteClick(View view, int position) {
+
+                        AlertDialog.Builder builder=new AlertDialog.Builder(Company_Description.this);
+                        builder.setMessage("Do you want to delete this comment?");
+                        builder.setTitle("Delete");
+                        builder.setIcon(R.drawable.ic_delete_black_24dp);
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String del=firebaseRecyclerAdapter.getRef(position).getKey();
+                                genRef.child(del).removeValue();
+                                //allRef.child(del).removeValue();
+                                notifyItemRemoved(position);
+                                mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+                                Toast.makeText(Company_Description.this,"Comment successfully deleted",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        AlertDialog alertDialog=builder.create();
+                        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                            @Override
+                            public void onShow(DialogInterface dialogInterface) {
+                                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                            }
+                        });
+                        alertDialog.show();
+
+                    }
+
+                    @Override
+                    public void onEditClick(View view, int position) {
+                        String edit=firebaseRecyclerAdapter.getRef(position).getKey();
+                        AlertDialog.Builder builder=new AlertDialog.Builder(Company_Description.this);
+
+                        builder.setMessage("Do you want to edit this comment?");
+                        builder.setTitle("Alert !");
+                        builder.setIcon(R.drawable.ic_edit_black_24dp);
+                        builder.setCancelable(false);
+                        final EditText input=new EditText(Company_Description.this);
+                        LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                        );
+                        input.setLayoutParams(lp);
+                        builder.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String newComment=input.getText().toString();
+                                genRef.child(edit).child("Comment").setValue(newComment);
+                                //allRef.child(edit).child("Comment").setValue(newComment);
+                                notifyDataSetChanged();
+                                mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+                                Toast.makeText(Company_Description.this,"Comment edited.",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        DatabaseReference t=genRef.child(edit);
+                        t.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String oldComment=dataSnapshot.child("Comment").getValue(String.class);
+                                input.setText(oldComment);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        AlertDialog alertDialog=builder.create();
+                        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                            @Override
+                            public void onShow(DialogInterface dialogInterface) {
+                                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                            }
+                        });
+                        alertDialog.setView(input);
+                        alertDialog.show();
+                    }
+                });
+                return vHolder;
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Comment model) {
+                linearLayoutButton=(LinearLayout) findViewById(R.id.buttonPanelForUser);
+
+                    if (mUser.getUid().equals(model.getUserId())){
+                        holder.linearLayoutButton.setVisibility(LinearLayout.VISIBLE);
+                    }
+                    else {
+                        holder.linearLayoutButton.setVisibility(LinearLayout.INVISIBLE);
+                    }
+
+                try {
+                    String dateStr = model.getDate();
+                    if(dateStr!=null) {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
+                        Date date = dateFormat.parse(dateStr);
+                        String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime(), Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
+                        holder.setComments(getApplicationContext(), model.getName(), model.getComment(), niceDateStr);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        };
+
+        mRecyclerView.setLayoutManager(mLinerLayoutManager);
+        firebaseRecyclerAdapter.startListening();
+        mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+    }
+
+
+    private  void  showQaData()
+    {
+    //qaRecyclerView.setVisibility(View.VISIBLE);
+        qaoptions=new FirebaseRecyclerOptions.Builder<Comment>().setQuery(qaRef,Comment.class).build();
+
+        qafirebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Comment, viewHolder>(qaoptions) {
+
+            @NonNull
+            @Override
+            public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+                View itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_row,parent,false);
+
+                viewHolder vHolder=new viewHolder(itemView);
+                linearLayoutButton=(LinearLayout)findViewById(R.id.buttonPanelForUser);
+                vHolder.setOnClickListener(new viewHolder.ClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+
+                    @Override
+                    public void onDeleteClick(View view, int position) {
+
+                        AlertDialog.Builder builder=new AlertDialog.Builder(Company_Description.this);
+                        builder.setMessage("Do you want to delete this comment?");
+                        builder.setTitle("Delete");
+                        builder.setIcon(R.drawable.ic_delete_black_24dp);
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String del=qafirebaseRecyclerAdapter.getRef(position).getKey();
+                                qaRef.child(del).removeValue();
+                                allRef.child(del).removeValue();
+                                notifyItemRemoved(position);
+                                qaRecyclerView.setAdapter(qafirebaseRecyclerAdapter);
+                                Toast.makeText(Company_Description.this,"Comment successfully deleted",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        AlertDialog alertDialog=builder.create();
+                        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                            @Override
+                            public void onShow(DialogInterface dialogInterface) {
+                                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                            }
+                        });
+                        alertDialog.show();
+
+                    }
+
+                    @Override
+                    public void onEditClick(View view, int position) {
+                        String edit=qafirebaseRecyclerAdapter.getRef(position).getKey();
+                        AlertDialog.Builder builder=new AlertDialog.Builder(Company_Description.this);
+
+                        builder.setMessage("Do you want to edit this comment?");
+                        builder.setTitle("Alert !");
+                        builder.setIcon(R.drawable.ic_edit_black_24dp);
+                        builder.setCancelable(false);
+                        final EditText input=new EditText(Company_Description.this);
+                        LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                        );
+                        input.setLayoutParams(lp);
+                        builder.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String newComment=input.getText().toString();
+                                qaRef.child(edit).child("Comment").setValue(newComment);
+                                allRef.child(edit).child("Comment").setValue(newComment);
+                                notifyDataSetChanged();
+                                qaRecyclerView.setAdapter(qafirebaseRecyclerAdapter);
+                                Toast.makeText(Company_Description.this,"Comment edited.",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        DatabaseReference t=qaRef.child(edit);
+                        t.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String oldComment=dataSnapshot.child("Comment").getValue(String.class);
+                                input.setText(oldComment);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        AlertDialog alertDialog=builder.create();
+                        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                            @Override
+                            public void onShow(DialogInterface dialogInterface) {
+                                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor((R.color.colorPrimaryDark)));
+                            }
+                        });
+                        alertDialog.setView(input);
+                        alertDialog.show();
+                    }
+                });
+                return vHolder;
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Comment model) {
+                linearLayoutButton=(LinearLayout) findViewById(R.id.buttonPanelForUser);
+
+                if (mUser.getUid().equals(model.getUserId())){
+                    holder.linearLayoutButton.setVisibility(LinearLayout.VISIBLE);
+                }
+                else {
+                    holder.linearLayoutButton.setVisibility(LinearLayout.INVISIBLE);
+                }
+
+                try {
+                    String dateStr = model.getDate();
+                    if(dateStr!=null) {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
+                        Date date = dateFormat.parse(dateStr);
+                        String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime(), Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
+                        holder.setComments(getApplicationContext(), model.getName(), model.getComment(), niceDateStr);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        };
+
+        qaRecyclerView.setLayoutManager(qaLayoutManager);
+        qafirebaseRecyclerAdapter.startListening();
+        qaRecyclerView.setAdapter(qafirebaseRecyclerAdapter);
+    }
+
+    /*private  void  showData()
     {
 
         options=new FirebaseRecyclerOptions.Builder<Comment>().setQuery(genRef,Comment.class).build();
@@ -373,7 +691,7 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String del=firebaseRecyclerAdapter.getRef(position).getKey();
                                 genRef.child(del).removeValue();
-                                allRef.child(del).removeValue();
+                                //allRef.child(del).removeValue();
                                 notifyItemRemoved(position);
                                 mRecyclerView.setAdapter(firebaseRecyclerAdapter);
                                 Toast.makeText(Company_Description.this,"Comment successfully deleted",Toast.LENGTH_LONG).show();
@@ -462,15 +780,15 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
             protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Comment model) {
                 linearLayoutButton=(LinearLayout) findViewById(R.id.buttonPanelForUser);
 
-                    if (mUser.getUid().equals(model.getUserId())){
-                        holder.linearLayoutButton.setVisibility(LinearLayout.VISIBLE);
-                    }
-                    else {
-                        holder.linearLayoutButton.setVisibility(LinearLayout.INVISIBLE);
-                    }
+                if (mUser.getUid().equals(model.getUserId())){
+                    holder.linearLayoutButton.setVisibility(LinearLayout.VISIBLE);
+                }
+                else {
+                    holder.linearLayoutButton.setVisibility(LinearLayout.INVISIBLE);
+                }
                 String dateStr = model.getDate();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
-                Date date = null;
+                Date date=null;
                 try {
                     date = dateFormat.parse(dateStr);
                     String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime() , Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
@@ -485,11 +803,6 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
         mRecyclerView.setLayoutManager(mLinerLayoutManager);
         firebaseRecyclerAdapter.startListening();
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
-    }
-
-
-    private  void  showQaData()
-    {
 
         options=new FirebaseRecyclerOptions.Builder<Comment>().setQuery(qaRef,Comment.class).build();
 
@@ -635,9 +948,9 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
 
         };
 
-        mRecyclerView.setLayoutManager(mLinerLayoutManager);
+        qaRecyclerView.setLayoutManager(qaLayoutManager);
         firebaseRecyclerAdapter.startListening();
-        mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+        qaRecyclerView.setAdapter(firebaseRecyclerAdapter);
     }
 
     private  void  showAllData()
@@ -679,7 +992,7 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                                 allRef.child(del).removeValue();
                                 if(genRef.child(del)!=null)
                                     genRef.child(del).removeValue();
-                                else
+                                if(qaRef.child(del)!=null)
                                     qaRef.child(del).removeValue();
                                 notifyItemRemoved(position);
                                 mRecyclerView.setAdapter(firebaseRecyclerAdapter);
@@ -726,7 +1039,7 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                                 allRef.child(edit).child("Comment").setValue(newComment);
                                 if(genRef.child(edit)!=null)
                                     genRef.child(edit).child("Comment").setValue(newComment);
-                                else
+                                if(qaRef.child(edit)!=null)
                                     qaRef.child(edit).child("Comment").setValue(newComment);
                                 notifyDataSetChanged();
                                 mRecyclerView.setAdapter(firebaseRecyclerAdapter);
@@ -780,8 +1093,9 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                 }
                 String dateStr = model.getDate();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
+                Date date=null;
                 try {
-                    Date date = dateFormat.parse(dateStr);
+                    date = dateFormat.parse(dateStr);
                     String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime() , Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
                     holder.setComments(getApplicationContext(),model.getName(),model.getComment(),niceDateStr);
                 } catch (ParseException e) {
@@ -794,7 +1108,8 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
         mRecyclerView.setLayoutManager(mLinerLayoutManager);
         firebaseRecyclerAdapter.startListening();
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
-    }
+    }*/
+
     public void checkConnection()
     {
         ConnectivityManager manager=(ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -812,11 +1127,22 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
         {
             String valueFromSpinner=adapterView.getItemAtPosition(i).toString();
             if(valueFromSpinner.equals("All"))
-                showAllData();
-            else if(valueFromSpinner.equals("General"))
+            {
+                qaRecyclerView.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.VISIBLE);
                 showGeneralData();
-            else
                 showQaData();
+            }
+            else if(valueFromSpinner.equals("General")) {
+                qaRecyclerView.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                showGeneralData();
+            }
+            else {
+                mRecyclerView.setVisibility(View.GONE);
+                qaRecyclerView.setVisibility(View.VISIBLE);
+                showQaData();
+            }
         }
     }
 
