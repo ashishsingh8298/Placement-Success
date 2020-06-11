@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static int SPASH_SCREEN=5000;
+    private static int SPASH_SCREEN=3000;
 
     //variables
     Animation topAnim,bottomAnim;
@@ -60,7 +60,4 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
-
 }

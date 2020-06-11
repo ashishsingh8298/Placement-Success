@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,11 +19,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -60,11 +63,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 public class Nav_Activity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    //ShimmerFrameLayout shimmerLayout;
     FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     DatabaseReference uRef;
+    boolean isShimmer=true;
     private ActionBarDrawerToggle mToggle;
     LinearLayoutManager mLinerLayoutManager;
+    LinearLayout shimmerManager;
     private RecyclerView mRecyclerView;
     FirebaseDatabase mFirebaseDatabase;
     FirebaseRecyclerAdapter<Company,viewHolder> firebaseRecyclerAdapter;
@@ -82,9 +88,15 @@ public class Nav_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_);
+
+        Handler handler=new Handler();
         loadingPanel=findViewById(R.id.loadingPanel);
+        shimmerManager=findViewById(R.id.shimmerEffect);
+        //loadingPanel.setVisibility(View.VISIBLE);
 
         checkConnection();
+        //shimmerLayout=findViewById(R.id.shimmerLayout);
+
         mAuth = FirebaseAuth.getInstance();
         mLinerLayoutManager=new LinearLayoutManager(this);
         mLinerLayoutManager.setReverseLayout(true);
@@ -167,8 +179,13 @@ public class Nav_Activity extends AppCompatActivity {
 
         showData();
 
-
-
+        /*new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isShimmer=false;
+                showData();
+            }
+        },2000);*/
         updateNavHeader();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -304,6 +321,7 @@ public class Nav_Activity extends AppCompatActivity {
         });
 
 
+
     }
 
     @Override
@@ -312,7 +330,8 @@ public class Nav_Activity extends AppCompatActivity {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            finish();
         }
     }
 
@@ -330,20 +349,26 @@ public class Nav_Activity extends AppCompatActivity {
         firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Company, viewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Company model) {
-                String dateStr=model.getDatetime();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
-                Date date = null;
-                try {
-                    date = dateFormat.parse(dateStr);
-                    String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime(), Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
-                    holder.setDetails(getApplicationContext(),model.getJobTitle(),model.getJobDescription(),model.getLinkLogo(),"Posted : "+niceDateStr);
-                }
-                catch (ParseException e)
+                /*if(isShimmer)
                 {
-                    e.printStackTrace();
-                }
+                    holder.shimmer.startShimmer();
+                }else {*/
+                    holder.shimmer.stopShimmer();
+                    holder.shimmer.setShimmer(null);
+                    String dateStr = model.getDatetime();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
+                    Date date = null;
+                    try {
+                        date = dateFormat.parse(dateStr);
+                        String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime(), Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
+                        holder.setDetails(getApplicationContext(), model.getJobTitle(), model.getJobDescription(), model.getLinkLogo(), "Posted : " + niceDateStr);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                //}
+                shimmerManager.setVisibility(View.INVISIBLE);
 
-                loadingPanel.setVisibility(View.INVISIBLE);
+                //loadingPanel.setVisibility(View.INVISIBLE);
 
             }
             @NonNull
@@ -382,6 +407,9 @@ public class Nav_Activity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLinerLayoutManager);
         firebaseRecyclerAdapter.startListening();
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+
+
+
     }
 
     public void updateNavHeader()
@@ -413,7 +441,7 @@ public class Nav_Activity extends AppCompatActivity {
 
                     u_name.setText(name);
                     u_email.setText(email);
-//                    loadingPanelNav.setVisibility(View.INVISIBLE);
+                    //loadingPanelNav.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
@@ -448,7 +476,7 @@ public class Nav_Activity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthStateListener);
-        loadingPanel.setVisibility(View.VISIBLE);
+        //loadingPanel.setVisibility(View.VISIBLE);
     }
     public void checkConnection()
     {

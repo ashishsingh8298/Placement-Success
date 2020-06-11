@@ -54,7 +54,7 @@ public class searchActivity extends AppCompatActivity implements AdapterClass.On
                         list.add(ds.getValue(Company.class));
                     }
 
-                    AdapterClass adapterClass=new AdapterClass(list,searchActivity.this::OnNoteClick);
+                    AdapterClass adapterClass=new AdapterClass(list,searchActivity.this::OnNoteClick,getApplicationContext());
                     recyclerView.setAdapter(adapterClass);
                     finalkeyList=keyList;
                 }
@@ -113,7 +113,7 @@ public class searchActivity extends AppCompatActivity implements AdapterClass.On
             myKeyList.add(keyList.get(list.indexOf(object)));
         }
         finalkeyList=myKeyList;
-        AdapterClass adapterClass=new AdapterClass(myList,this::OnNoteClick);
+        AdapterClass adapterClass=new AdapterClass(myList,this::OnNoteClick,getApplicationContext());
         recyclerView.setAdapter(adapterClass);
     }
 

@@ -93,10 +93,6 @@ public class whatsNew extends AppCompatActivity implements notificationAdapter.O
 
 
                 }
-                if(keyList.isEmpty())
-                {
-                    startActivity(new Intent(whatsNew.this,noJobsPosted.class));
-                }
 
             }
 
@@ -123,6 +119,15 @@ public class whatsNew extends AppCompatActivity implements notificationAdapter.O
         });
 
 
+        checklist();
+
+    }
+
+    private void checklist() {
+        if(keyList.isEmpty())
+        {
+            startActivity(new Intent(whatsNew.this,noJobsPosted.class));
+        }
     }
 
     @Override
@@ -132,4 +137,5 @@ public class whatsNew extends AppCompatActivity implements notificationAdapter.O
         intent.putExtra("str",temp);
         startActivity(intent);
     }
+
 }

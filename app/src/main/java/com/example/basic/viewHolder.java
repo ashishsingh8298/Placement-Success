@@ -1,13 +1,16 @@
 package com.example.basic;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
@@ -20,6 +23,7 @@ public class viewHolder extends RecyclerView.ViewHolder {
     View mview;
     Button del,edit;
     LinearLayout linearLayoutButton;
+    ShimmerFrameLayout shimmer;
     CardView cardView;
 
     public viewHolder(View itemView)
@@ -27,6 +31,7 @@ public class viewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         cardView=itemView.findViewById(R.id.card);
         linearLayoutButton=(LinearLayout)itemView.findViewById(R.id.buttonPanelForUser);
+        shimmer=itemView.findViewById(R.id.shimmerLayout);
         del=itemView.findViewById(R.id.Delete);
         edit=itemView.findViewById(R.id.Edit);
         mview=itemView;
@@ -70,8 +75,12 @@ public class viewHolder extends RecyclerView.ViewHolder {
         TextView postDate=mview.findViewById(R.id.comPostDate);
         Picasso.get().load(linkLogo).resize(0,150).centerCrop().placeholder(R.drawable.error).error(R.drawable.error).into(logoImage);
         cTitle.setText(jobTitle);
+        cTitle.setBackgroundColor(Color.WHITE);
         cDesc.setText(jobDescription);
+        cDesc.setBackgroundColor(Color.WHITE);
         postDate.setText(post);
+        postDate.setBackgroundColor(Color.WHITE);
+        logoImage.setBackgroundColor(Color.WHITE);
     }
     /*public void setAppliedJobs(Context ctx,String jobTitle,String jobDescription)
     {
@@ -88,6 +97,7 @@ public class viewHolder extends RecyclerView.ViewHolder {
     }
     public void setComments(Context ctx,String userId,String Comment,String Date)
     {
+        CardView cardView=mview.findViewById(R.id.card);
         TextView user_Id=mview.findViewById(R.id.user_name);
         TextView userComment=mview.findViewById(R.id.comment);
         TextView comment_date=mview.findViewById(R.id.date);

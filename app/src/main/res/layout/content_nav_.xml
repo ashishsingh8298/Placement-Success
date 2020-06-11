@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_nav_">
+
+    <!--<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="hello world"></TextView>-->
+
+
+
 
     <fragment
         android:id="@+id/nav_host_fragment"
@@ -16,6 +25,25 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/shimmerEffect">
+            <include
+                layout="@layout/company_row"></include>
+
+            <include
+                layout="@layout/company_row"></include>
+
+            <include
+                layout="@layout/company_row"></include>
+
+            <include
+                layout="@layout/company_row"></include>
+        </LinearLayout>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
@@ -28,4 +56,4 @@
         />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </fragment>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

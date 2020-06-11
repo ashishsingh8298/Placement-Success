@@ -97,7 +97,7 @@ public class appliedJobsActivity extends AppCompatActivity implements AdapterCla
                             }
 
 
-                            AdapterClass adapterClass=new AdapterClass(list,appliedJobsActivity.this::OnNoteClick);
+                            AdapterClass adapterClass=new AdapterClass(list,appliedJobsActivity.this::OnNoteClick,getApplicationContext());
                             recyclerView.setAdapter(adapterClass);
                             finalkeyList=keyList;
                         }

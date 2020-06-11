@@ -138,7 +138,7 @@ public class recommendedJobs extends AppCompatActivity implements AdapterClass.O
                         myKeyList.add(keyList.get(list.indexOf(object)));
                     }
                     finalkeyList = myKeyList;
-                    AdapterClass adapterClass = new AdapterClass(listWithoutDuplicate, recommendedJobs.this::OnNoteClick);
+                    AdapterClass adapterClass = new AdapterClass(listWithoutDuplicate, recommendedJobs.this::OnNoteClick,getApplicationContext());
                     recyclerView.setAdapter(adapterClass);
                 }
 
