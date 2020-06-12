@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.format.DateUtils;
 import android.util.Log;
 
@@ -41,6 +42,7 @@ public class whatsNew extends AppCompatActivity implements notificationAdapter.O
     ArrayList<String> keyList;
     ArrayList<String> userKeyList;
     String userId,curr_date;
+    Integer totalElements=0;
     ArrayList<String> finalkeyList=new ArrayList<>();
 
     @Override
@@ -79,7 +81,54 @@ public class whatsNew extends AppCompatActivity implements notificationAdapter.O
                         long days=Math.abs((date.getTime()-curr_date_obj.getTime())/86400000);
                         String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime() , Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
                         if (days<7){
-                            Log.d(TAG, "onChildAdded: "+niceDateStr);
+                            totalElements++;
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    totalElements=0;
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
+
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                if (dataSnapshot.exists() && totalElements!=0){
+                    String postJobDate=dataSnapshot.getValue(Company.class).getDatetime();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
+                    Date date = null;
+                    Date curr_date_obj=null;
+                    try {
+                        date = dateFormat.parse(postJobDate);
+                        curr_date_obj=dateFormat.parse(curr_date);
+                        long days=Math.abs((date.getTime()-curr_date_obj.getTime())/86400000);
+                        String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime() , Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
+                        if (days<7){
                             keyList.add(0,dataSnapshot.getKey());
                             list.add(0,dataSnapshot.getValue(Company.class));
                         }
@@ -87,11 +136,12 @@ public class whatsNew extends AppCompatActivity implements notificationAdapter.O
                         e.printStackTrace();
                     }
                     notificationAdapter adapterClass=new notificationAdapter(list,whatsNew.this::OnNoteClick);
-
                     recyclerView.setAdapter(adapterClass);
                     finalkeyList=keyList;
 
-
+                }
+                else{
+                    setContentView(R.layout.activity_no_jobs_posted);
                 }
 
             }
@@ -116,18 +166,8 @@ public class whatsNew extends AppCompatActivity implements notificationAdapter.O
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
         });
-
-
-        checklist();
-
-    }
-
-    private void checklist() {
-        if(keyList.isEmpty())
-        {
-            startActivity(new Intent(whatsNew.this,noJobsPosted.class));
-        }
     }
 
     @Override
@@ -137,5 +177,4 @@ public class whatsNew extends AppCompatActivity implements notificationAdapter.O
         intent.putExtra("str",temp);
         startActivity(intent);
     }
-
 }
