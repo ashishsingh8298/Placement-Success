@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -55,6 +56,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -70,7 +72,7 @@ public class Nav_Activity extends AppCompatActivity {
     boolean isShimmer=true;
     private ActionBarDrawerToggle mToggle;
     LinearLayoutManager mLinerLayoutManager;
-    LinearLayout shimmerManager;
+    LinearLayout shimmerManager,navLayout;
     private RecyclerView mRecyclerView;
     FirebaseDatabase mFirebaseDatabase;
     FirebaseRecyclerAdapter<Company,viewHolder> firebaseRecyclerAdapter;
@@ -82,6 +84,7 @@ public class Nav_Activity extends AppCompatActivity {
     String Uname,uid;
     SwipeRefreshLayout swipeRefreshLayout;
     RelativeLayout loadingPanel,loadingPanelNav;
+    private long backPressesTime;
 
 
     @Override
@@ -92,6 +95,8 @@ public class Nav_Activity extends AppCompatActivity {
         Handler handler=new Handler();
         loadingPanel=findViewById(R.id.loadingPanel);
         shimmerManager=findViewById(R.id.shimmerEffect);
+        navLayout=findViewById(R.id.navManager);
+
         //loadingPanel.setVisibility(View.VISIBLE);
 
         checkConnection();
@@ -329,11 +334,20 @@ public class Nav_Activity extends AppCompatActivity {
         DrawerLayout drawer = findViewById((R.id.drawer_layout));
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            //super.onBackPressed();
-            finish();
+        } else if(backPressesTime+3000>System.currentTimeMillis()){
+            super.onBackPressed();
+            //System.exit(0);
+            finishAffinity();
+            return;
+            }
+            else
+            {
+                Snackbar.make(navLayout,"Pressing back again will exit the app.", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).setBackgroundTint(Color.BLACK).show();
+            }
+            backPressesTime=System.currentTimeMillis();
+
         }
-    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

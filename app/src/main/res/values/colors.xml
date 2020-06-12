@@ -3,6 +3,9 @@
     <color name="colorPrimary">#48db70</color>
     <color name="colorPrimaryDark">#057a1e</color>
     <color name="colorAccent">#95f55d</color>
+    <!--<color name="colorPrimary">#00aced</color>
+    <color name="colorPrimaryDark">#0084b4</color>
+    <color name="colorAccent">#c0deed</color>-->
     <color name="white">#fff</color>
     <color name="shimmer">#dddddd</color>
 </resources>

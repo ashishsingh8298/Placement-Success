@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="General">
+        android:title="General"
+        android:textColor="#105e9e">
         <Preference
             android:title="Change Password"
             android:key="change_password"
@@ -27,7 +28,9 @@
             android:title="Brightness Level"></SeekBarPreference>
     </PreferenceCategory>-->
     <PreferenceCategory
-        android:title="Additional">
+        android:title="Additional"
+        android:textColor="#105e9e">
+
         <Preference
             android:title="About Us"
             android:summary="Click to Know More"

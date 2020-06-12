@@ -460,7 +460,7 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
             @Override
             protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Comment model) {
                 //cardView=findViewById(R.id.card);
-                holder.cardView.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_scale_animation));
+                holder.cardView.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.top_animation));
                 linearLayoutButton=(LinearLayout) findViewById(R.id.buttonPanelForUser);
 
                     if (mUser.getUid().equals(model.getUserId())){
@@ -617,7 +617,7 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
             @Override
             protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Comment model) {
                 //cardView=findViewById(R.id.card);
-                holder.cardView.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_scale_animation));
+                holder.cardView.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.top_animation));
                 linearLayoutButton=(LinearLayout) findViewById(R.id.buttonPanelForUser);
 
                 if (mUser.getUid().equals(model.getUserId())){
