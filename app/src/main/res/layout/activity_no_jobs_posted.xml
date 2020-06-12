@@ -30,6 +30,23 @@
             android:layout_marginTop="5dp"
             android:text="Notified when any new job will be posted."></TextView>
 
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible">
+
+        <Button
+            android:id="@+id/buttonFeed"
+            android:background="#000"
+            android:textColor="#fff"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Available Jobs"/>
     </LinearLayout>
 </RelativeLayout>
