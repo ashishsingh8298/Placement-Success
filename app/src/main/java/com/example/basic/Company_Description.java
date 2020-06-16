@@ -288,11 +288,11 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                            String user_id = mAuth.getCurrentUser().getUid();
                            String name = dataSnapshot.child(user_id).child("Name").getValue(String.class);
+                           date=df.format(Calendar.getInstance().getTime());
                            if(item.equals("General")) {
                                DatabaseReference ref = cRef.child("General").push();
                                ref.child("userId").setValue(user_id);
                                ref.child("Comment").setValue(comment);
-                               date=df.format(calendar.getTime());
                                ref.child("Date").setValue(date);
                                ref.child("Name").setValue(name);
 
