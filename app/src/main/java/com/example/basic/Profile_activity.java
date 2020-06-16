@@ -92,7 +92,7 @@ public class Profile_activity extends AppCompatActivity {
                     dob.setText(u_dob);
                 if(photo!=null) {
                     //Picasso.get().load(photo).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(profileImage);
-                    Glide.with(Profile_activity.this).load(photo).into(profileImage);
+                    Glide.with(getApplicationContext()).load(photo).into(profileImage);
                 }
                 else
                 {

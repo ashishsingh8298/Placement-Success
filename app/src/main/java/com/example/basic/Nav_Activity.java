@@ -446,7 +446,7 @@ public class Nav_Activity extends AppCompatActivity {
                     String email=dataSnapshot.child("Email").getValue(String.class);
                     if(photo!=null) {
                         //Picasso.get().load(photo).fit().centerCrop().placeholder(R.drawable.ic_profileimage).error(R.drawable.ic_profileimage).into(profileImage);
-                        Glide.with(Nav_Activity.this).load(photo).into(u_image);
+                        Glide.with(getApplicationContext()).load(photo).into(u_image);
                     }
                     else
                     {
