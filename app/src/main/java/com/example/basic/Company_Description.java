@@ -292,6 +292,7 @@ public class Company_Description extends AppCompatActivity implements AdapterVie
                                DatabaseReference ref = cRef.child("General").push();
                                ref.child("userId").setValue(user_id);
                                ref.child("Comment").setValue(comment);
+                               date=df.format(calendar.getTime());
                                ref.child("Date").setValue(date);
                                ref.child("Name").setValue(name);
 
