@@ -231,18 +231,32 @@
             android:id="@+id/Comment_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
             android:text="Comments"
             android:textColor="#000"
             android:textSize="25dp"
             android:textStyle="bold"
+
             />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="17dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Choose Comment type : "
+                    android:textSize="10sp"
+                    android:textColor="#000"></TextView>
 
         <androidx.appcompat.widget.AppCompatSpinner
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:id="@+id/showSpinner">
         </androidx.appcompat.widget.AppCompatSpinner>
+            </LinearLayout>
         </LinearLayout>
 
 <!--<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -268,6 +282,17 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Choose Comment type : "
+                android:textColor="#000"
+                android:textSize="15sp"></TextView>
 
 
         <androidx.appcompat.widget.AppCompatSpinner
@@ -276,6 +301,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/spinner">
         </androidx.appcompat.widget.AppCompatSpinner>
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
