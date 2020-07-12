@@ -104,6 +104,7 @@ public class searchActivity extends AppCompatActivity implements AdapterClass.On
                    object.getJobResponsibility().toLowerCase().contains(s.toLowerCase()) ||
                    object.getJobTitle().toLowerCase().contains(s.toLowerCase())
                     ||object.getRequiredSkills().toLowerCase().contains(s.toLowerCase())
+                    ||object.getEligibleBranch().toLowerCase().contains(s.toLowerCase())
             ){
                 myList.add(object);
 

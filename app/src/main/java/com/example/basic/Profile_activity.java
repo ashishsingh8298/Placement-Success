@@ -154,7 +154,7 @@ public class Profile_activity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            StorageReference Imagename=Folder.child("image"+imageUri.getLastPathSegment());
+            StorageReference Imagename=Folder.child("image");
             Imagename.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
