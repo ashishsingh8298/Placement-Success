@@ -11,6 +11,7 @@ import android.content.IntentSender;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class editProfile extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
     private FirebaseAuth mAuth;
+    private static final String TAG="editProfile";
     private final static int RESOLVE_HINT = 1011;
     String mobNumber;
     TextInputEditText fullName,phoneNumber,dob;
@@ -139,6 +141,7 @@ private void getPhone() {
         startIntentSenderForResult(intent.getIntentSender(),
         RESOLVE_HINT, null, 0, 0, 0);
         } catch (IntentSender.SendIntentException e) {
+            Log.d(TAG, "getPhone: "+e);
         e.printStackTrace();
         }
         }
@@ -158,6 +161,12 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
         Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
         }
         }
+        else{
+            phoneNumber.setFocusable(true);
+        }
+        }
+        else{
+            phoneNumber.setFocusable(true);
         }
         }
 

@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -142,6 +144,13 @@ public class whatsNew extends AppCompatActivity implements notificationAdapter.O
                 }
                 else{
                     setContentView(R.layout.activity_no_jobs_posted);
+                    Button available=findViewById(R.id.buttonFeed);
+                    available.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(getApplicationContext(),Nav_Activity.class));
+                        }
+                    });
                 }
 
             }
